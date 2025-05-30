@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+  <t t-name="costcut.CustomCalendarTemplate">
+    <div class="calendar-wrapper">
+      <h2>Custom Calendar</h2>
+        Hello World
+      <!-- Your HTML layout goes here -->
+    </div>
+  </t>
+</templates>

@@ -1,0 +1,1006 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="server_template" xml:space="preserve">
+    <t t-name="odoo_health_report_tool.server_health_template">
+        <div style="max-height: 100vh; overflow-y:auto; padding: 10px; align:left ;">
+            <center>
+                <h1 style="margin:20px;">
+                    Server Details
+                </h1>
+            </center>
+            </div>
+
+        <div style="max-height: 100vh; overflow-y:auto; padding: 10px; align:left ;">
+            <h3>CPU Utilization</h3>
+        </div>
+        <div>
+            <t t-if="state.metrics">
+               <t t-if="state.metrics.cpu_grade = 'A'">
+                   <span style="
+                       display: inline-flex;
+                       align-items: center;
+                       justify-content: center;
+                       width: 35px;
+                       height: 35px;
+                       border-radius: 50%;
+                       background: #4CAF50;
+                       color: white;
+                       font-weight: bold;
+                       font-size: 16px;
+                       box-shadow: 0 2px 4px rgba(76, 175, 80, 0.2);">
+                       <t t-esc="state.metrics.cpu_grade"/>
+                   </span>
+               </t>
+               <t t-elif="state.metrics.cpu_grade = 'B'">
+                   <span style="
+                       display: inline-flex;
+                       align-items: center;
+                       justify-content: center;
+                       width: 35px;
+                       height: 35px;
+                       border-radius: 50%;
+                       background: #8BC34A;
+                       color: white;
+                       font-weight: bold;
+                       font-size: 16px;
+                       box-shadow: 0 2px 4px rgba(139, 195, 74, 0.2);">
+                       <t t-esc="state.metrics.cpu_grade"/>
+                   </span>
+               </t>
+               <t t-elif="state.metrics.cpu_grade = 'C'">
+                   <span style="
+                       display: inline-flex;
+                       align-items: center;
+                       justify-content: center;
+                       width: 35px;
+                       height: 35px;
+                       border-radius: 50%;
+                       background: #FFC107;
+                       color: black;
+                       font-weight: bold;
+                       font-size: 16px;
+                       box-shadow: 0 2px 4px rgba(255, 193, 7, 0.2);">
+                       <t t-esc="state.metrics.cpu_grade"/>
+                   </span>
+               </t>
+               <t t-else="state.metrics.cpu_grade = 'D'">
+                   <span style="
+                       display: inline-flex;
+                       align-items: center;
+                       justify-content: center;
+                       width: 35px;
+                       height: 35px;
+                       border-radius: 50%;
+                       background: #F44336;
+                       color: white;
+                       font-weight: bold;
+                       font-size: 16px;
+                       box-shadow: 0 2px 4px rgba(244, 67, 54, 0.2);">
+                       <t t-esc="state.metrics.cpu_grade"/>
+                   </span>
+               </t>
+            </t>
+        </div>
+        <div style="margin-left: 50px; font-weight: bold; margin-top: 50px; display: flex; gap: 20px;">
+                <!-- Cpu Count Tile -->
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                <span class="fa fa-info-circle"
+                      title="The total number of CPU cores available in the system"/>
+                <div id="templates">
+                        <div style="font-size: 1em; color: #555;">Cpu count</div>
+                    <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <t t-if="state.metrics">
+                            <t t-esc="state.metrics.cpu_count"/> <!-- Display CPU count -->
+                        </t>
+                    </div>
+
+                <t t-if="state.metrics.current_workers &gt; state.metrics.allowed_workers">
+                    <div style="color: red; font-weight: bold;">Bad CPU count</div>
+                    <div style="color: #555;">Your CPU count is bad minimum need <t
+                            t-esc="state.metrics.min_cpu_count"/></div>
+                </t>
+                <t t-elif="state.metrics.current_workers = state.metrics.allowed_workers">
+                    <div style="color: green; font-weight: bold;">Metrics Value: Acceptable</div>
+                    <div style="color: #555;">Your cpu count is been critical</div>
+                </t>
+                <t t-else="state.metrics.current_workers &lt; state.metrics.allowed_workers">
+                    <div style="color: green; font-weight: bold;">Metrics Value: Good</div>
+                    <div style="color: #555;">Your CPU count is sufficient for optimal performance</div>
+                </t>
+            </div>
+
+            <!-- current workers and allowed workers -->
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                <span class="fa fa-info-circle"
+                      title="workers are separate processes that handle requests from users"/>
+                <div id="templates">
+                        <div style="font-size: 1em; color: #555;"> Current Workers</div>
+                    <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <t t-if="state.metrics">
+                            <t t-esc="state.metrics.current_workers"/>
+                        </t>
+                    </div>
+                <div style="font-size: 1em; color: #555;"> Allowed Workers</div>
+                <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                <t t-if="state.metrics">
+                            <t t-esc="state.metrics.allowed_workers"/>
+                        </t>
+
+            </div>
+
+            <!-- CPU user time -->
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                <span class="fa fa-info-circle"
+                      title=" Time spent on user-level processes."/>
+                <div id="templates">
+                        <div style="font-size: 1em; color: #555;">User Time</div>
+                    <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <t t-if="state.metrics">
+                                <div><t t-esc="state.metrics.cpu_user_times"/>%</div>
+                        </t>
+                    </div>
+                <t t-if="state.metrics.cpu_user_times &gt; 70">
+                        <div style="color: red; font-weight: bold;">Warning: High CPU User Time</div>
+                    <div style="color: #555;">User time is high. Consider reducing unnecessary processes or optimizing workloads.</div>
+                    </t>
+
+                <t t-elif="state.metrics.cpu_user_times &gt;= 50 and state.metrics.cpu_user_times &lt;= 70">
+                        <div style="color: orange;">Acceptable</div>
+                    </t>
+                <t t-elif="state.metrics.cpu_user_times &lt;50">
+                        <div style="color: green; font-weight: bold;">Healthy</div>
+                    <div style="color: #555;">User time is within an acceptable range.</div>
+                    </t>
+            </div>
+
+            <!-- CPU system time -->
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                width: 200px; text-align: center;">
+                <span class="fa fa-info-circle"
+                      title=" Time spent on kernel-level operations."/>
+                <div id="templates">
+                        <div style="font-size: 1em; color: #555;">Cpu system times</div>
+                    <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <t t-if="state.metrics">
+                             <t t-esc="state.metrics.cpu_system_times"/>
+                        </t>
+                    </div>
+
+                <div>
+                        <t t-if="state.metrics.cpu_system_times &lt; 30">
+                            <div style="color: green; font-weight: bold;">Excellent: Your system is running optimally</div>
+                            <div style="color: #555;">Your system time is minimal, indicating that the kernel is efficiently managing resources.</div>
+                        </t>
+                    <t t-if="state.metrics.cpu_system_times &gt;= 30 and state.metrics.cpu_system_times &lt; 50">
+                            <div style="color: orange; font-weight: bold;">Acceptable: Monitor the system</div>
+                        <div style="color: #555;">Your system time is within an acceptable range.</div>
+                        </t>
+                    <t t-if="state.metrics.cpu_system_times &gt;= 50">
+                            <div style="color: red; font-weight: bold;">Warning: High system time detected</div>
+                        <div style="color: #555;">Your system time is higher than 50%.</div>
+                        <ul style="color: #555;">
+                            </ul>
+                        </t>
+                    </div>
+            </div>
+
+            <!-- CPU idle time -->
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                <span class="fa fa-info-circle"
+                      title="Time the CPU spends in an idle state"/>
+                <div id="templates">
+                        <div style="font-size: 1em; color: #555;">Cpu idle times</div>
+                    <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <t t-if="state.metrics">
+                            <t t-esc="state.metrics.cpu_idle_times"/>
+                        </t>
+                    </div>
+                <div>
+                        <t t-if="state.metrics.cpu_idle_times &gt;= 50">
+                            <div style="color: green; font-weight: bold;">Good: Your CPU is not heavily taxed</div>
+                        </t>
+                    <t t-if="state.metrics.cpu_idle_times &gt;= 30 and state.metrics.cpu_idle_times &lt;50">
+                            <div style="color: orange; font-weight: bold;">Acceptable</div>
+                        </t>
+                    <t t-if="state.metrics.cpu_idle_times &lt; 30">
+                            <div style="color: red; font-weight: bold;">Bad: High CPU usage detected</div>
+                        <div style="color: #555;">Your CPU idle time is below 30%</div>
+                        <ul style="color: #555;">
+                            </ul>
+                        </t>
+                    </div>
+                </div>
+
+            <!-- CPU iowait time -->
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                <span class="fa fa-info-circle"
+                      title="Time waiting for I/O operations"/>
+                <div id="templates">
+                    <div style="font-size: 1em; color: #555;">I/O Wait time</div>
+                    <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <t t-if="state.metrics">
+                         <t t-esc="state.metrics.cpu_iowait_times"/>
+                    </t>
+                </div>
+                <t t-if="state.metrics.cpu_iowait_times &lt; 10">
+                    <div style="color: green;">Excellent IO performance</div>
+                </t>
+                <t t-elif="state.metrics.cpu_iowait_times &gt;= 10 and state.metrics.cpu_iowait_times &lt; 20">
+                    <div style="color: orange;">Acceptable IO wait time, but monitor</div>
+                </t>
+                <t t-elif="state.metrics.cpu_iowait_times &gt;= 20">
+                    <div style="color: red;">High IO wait time - investigate disk performance</div>
+                </t>
+            </div>
+
+            <!-- CPU load averages -->
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                <span class="fa fa-info-circle"
+                      title=" The average number of processes waiting for CPU resources."/>
+                <div id="templates">
+                        <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <t t-if="state.metrics">
+                            <div style="font-size: 1em; color: #555;">load avg per 1 min</div>
+                        <t t-esc="state.metrics.load_avg_1_min"/>
+                        <br/>
+                        <div style="font-size: 1em; color: #555;">load avg per 5 min</div>
+                        <t t-esc="state.metrics.load_avg_5_min"/>
+                        <br/>
+                        <div style="font-size: 1em; color: #555;">load avg 15 min</div>
+                        <t t-esc="state.metrics.load_avg_15_min"/>
+                        </t>
+                    </div>
+                </div>
+        </div>
+
+        <!--        server memory metrics-->
+        <div style="max-height: 100vh; overflow-y:auto; padding: 10px; align:left ;">
+            <h3>System memory</h3>
+        </div>
+        <div>
+            <t t-if="state.metrics">
+               <t t-if="state.memory_metrics
+               .cpu_grade = 'A'">
+                   <span style="
+                       display: inline-flex;
+                       align-items: center;
+                       justify-content: center;
+                       width: 35px;
+                       height: 35px;
+                       border-radius: 50%;
+                       background: #4CAF50;
+                       color: white;
+                       font-weight: bold;
+                       font-size: 16px;
+                       box-shadow: 0 2px 4px rgba(76, 175, 80, 0.2);">
+                       <t t-esc="state.memory_metrics.cpu_grade"/>
+                   </span>
+               </t>
+               <t t-elif="state.memory_metrics.cpu_grade = 'B'">
+                   <span style="
+                       display: inline-flex;
+                       align-items: center;
+                       justify-content: center;
+                       width: 35px;
+                       height: 35px;
+                       border-radius: 50%;
+                       background: #8BC34A;
+                       color: white;
+                       font-weight: bold;
+                       font-size: 16px;
+                       box-shadow: 0 2px 4px rgba(139, 195, 74, 0.2);">
+                       <t t-esc="state.memory_metrics.cpu_grade"/>
+                   </span>
+               </t>
+               <t t-elif="state.memory_metrics.cpu_grade = 'C'">
+                   <span style="
+                       display: inline-flex;
+                       align-items: center;
+                       justify-content: center;
+                       width: 35px;
+                       height: 35px;
+                       border-radius: 50%;
+                       background: #FFC107;
+                       color: black;
+                       font-weight: bold;
+                       font-size: 16px;
+                       box-shadow: 0 2px 4px rgba(255, 193, 7, 0.2);">
+                       <t t-esc="state.memory_metrics.cpu_grade"/>
+                   </span>
+               </t>
+               <t t-else="state.memory_metrics.cpu_grade = 'D'">
+                   <span style="
+                       display: inline-flex;
+                       align-items: center;
+                       justify-content: center;
+                       width: 35px;
+                       height: 35px;
+                       border-radius: 50%;
+                       background: #F44336;
+                       color: white;
+                       font-weight: bold;
+                       font-size: 16px;
+                       box-shadow: 0 2px 4px rgba(244, 67, 54, 0.2);">
+                       <t t-esc="state.memory_metrics.cpu_grade"/>
+                   </span>
+               </t>
+            </t>
+        </div>
+
+        <!--        total memory-->
+        <div style="margin-left: 50px; font-weight: bold; margin-top: 50px; display: flex; gap: 20px;">
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                <span class="fa fa-info-circle"
+                      title="The total physical memory"/>
+                <div id="total_memory">
+                <div style="font-size: 1em; color: #555;">Total memory (MB)</div>
+                    <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <t t-if="state.memory_metrics">
+                         <t t-esc="state.memory_metrics.total_memory"/>
+                    </t>
+                </div>
+            </div>
+
+            <!--            used memory-->
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                <span class="fa fa-info-circle"
+                      title="The total physical memory"/>
+                <div id="used_memory">
+                     <div style="font-size: 1em; color: #555;">used memory(MB)</div>
+                    <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <t t-if="state.memory_metrics">
+                         <t t-esc="state.memory_metrics.used_memory"/>
+                     </t>
+                </div>
+                <t t-if="state.memory_metrics.used_memory &lt;= 0.8 * state.memory_metrics.total_memory">
+                    <div style="color: green;">Good</div>
+                 </t>
+                <t t-elif="state.memory_metrics.used_memory &gt; 0.8 * state.memory_metrics.total_memory and state.memory_metrics.used_memory &lt;= 0.9 * state.memory_metrics.total_memory">
+                    <div style="color: orange;">Acceptable</div>
+                </t>
+                <t t-else="state.memory_metrics.used_memory &gt; 0.9 * state.memory_metrics.total_memory ">
+                    <div style="color: red;">Bad</div>
+                 </t>
+           </div>
+
+            <!--            Free memory-->
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                <span class="fa fa-info-circle"
+                      title="The amount of RAM that is currently unused"/>
+                <div id="free_memory">
+                    <div style="font-size: 1em; color: #555;">Free memory(MB)</div>
+                    <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <t t-if="state.memory_metrics">
+                         <t t-esc="state.memory_metrics.free_memory"/>
+                    </t>
+                </div>
+                <t t-if="state.memory_metrics.free_memory &gt;= 0.2 * state.memory_metrics.total_memory">
+                    <div style="color: green;">Good</div>
+                </t>
+                <t t-elif="state.memory_metrics.free_memory &gt; 0.1 * state.memory_metrics.total_memory and state.memory_metrics.free_memory &lt; 0.2 * state.memory_metrics.total_memory ">
+                    <div style="color: orange;">Acceptable</div>
+                </t>
+                <t t-else="state.memory_metrics.free_memory &lt;= 0.1 * state.memory_metrics.total_memory">
+                    <div style="color: red;">Bad</div>
+                </t>
+           </div>
+
+            <!--            shared memory-->
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                <span class="fa fa-info-circle"
+                      title="indicates how much memory is shared across processes"/>
+                <div id="shared_memory">
+                   <div style="font-size: 1em; color: #555;">shared memory(MB)</div>
+                    <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <t t-if="state.memory_metrics">
+                         <t t-esc="state.memory_metrics.shared_memory"/>
+                    </t>
+                </div>
+                <t t-if="state.memory_metrics.shared_memory &lt;= 0.25 * state.memory_metrics.total_memory">
+                    <div style="color: green;">Good</div>
+                 </t>
+                <t t-elif="state.memory_metrics.shared_memory &gt;= 0.25 * state.memory_metrics.total_memory and state.memory_metrics.shared_memory &lt;= 0.5 * state.memory_metrics.total_memory ">
+                    <div style="color: orange;">Acceptable</div>
+                 </t>
+                <t t-else="state.memory_metrics.shared_memory &gt; 0.5 * state.memory_metrics.total_memory">
+                    <div style="color: red;">Bad</div>
+                </t>
+           </div>
+
+            <!--            cached memory-->
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                <span class="fa fa-info-circle"
+                      title="the cached memory typically stores frequently accessed data that can be freed when the system needs more memory."/>
+                <div id="cached_memory">
+                   <div style="font-size: 1em; color: #555;">Cached memory(MB)</div>
+                    <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <t t-if="state.memory_metrics">
+                         <t t-esc="state.memory_metrics.cached_memory"/>
+                    </t>
+                </div>
+                <t t-if="state.memory_metrics.cached_memory &lt; 0.5 * state.memory_metrics.total_memory">
+                    <div style="color: green;">Good</div>
+                 </t>
+                <t t-elif="state.memory_metrics.cached_memory &gt;= 0.5 * state.memory_metrics.total_memory and state.memory_metrics.cached_memory &lt;= 0.75 * state.memory_metrics.total_memory ">
+                    <div style="color: orange;">Acceptable</div>
+                 </t>
+                <t t-else="state.memory_metrics.cached_memory &gt; 0.75 * state.memory_metrics.total_memory">
+                    <div style="color: red;">Bad</div>
+                </t>
+           </div>
+
+            <!--            Buffered memory-->
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                <span class="fa fa-info-circle"
+                      title="Temporary storage for quickly accessed data that can be freed when needed."/>
+                <div id="buffered_memory">
+                    <div style="font-size: 1em; color: #555;">Buffered memory(MB)</div>
+                    <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <t t-if="state.memory_metrics">
+                         <t t-esc="state.memory_metrics.buffered_memory"/>
+                    </t>
+                </div>
+                <t t-if="state.memory_metrics.buffered_memory &lt; 0.5 * state.memory_metrics.total_memory">
+                    <div style="color: green;">Good</div>
+                </t>
+                <t t-elif="state.memory_metrics.buffered_memory &gt;= 0.5 * state.memory_metrics.total_memory and state.memory_metrics.buffered_memory &lt;= 0.75 * state.memory_metrics.total_memory ">
+                    <div style="color: orange;">Acceptable</div>
+                </t>
+                <t t-else="state.memory_metrics.buffered_memory &gt; 0.75 * state.memory_metrics.total_memory">
+                    <div style="color: red;">Bad</div>
+                </t>
+            </div>
+        </div>
+
+        <div style="max-height: 100vh; overflow-y:auto; padding: 10px; align:left ;">
+            <h3>Process memory</h3>
+        </div>
+         <div>
+            <t t-if="state.process_metrics">
+               <t t-if="state.process_metrics.cpu_grade = 'A'">
+                   <span style="
+                       display: inline-flex;
+                       align-items: center;
+                       justify-content: center;
+                       width: 35px;
+                       height: 35px;
+                       border-radius: 50%;
+                       background: #4CAF50;
+                       color: white;
+                       font-weight: bold;
+                       font-size: 16px;
+                       box-shadow: 0 2px 4px rgba(76, 175, 80, 0.2);">
+                       <t t-esc="state.process_metrics.cpu_grade"/>
+                   </span>
+               </t>
+               <t t-elif="state.process_metrics.cpu_grade = 'B'">
+                   <span style="
+                       display: inline-flex;
+                       align-items: center;
+                       justify-content: center;
+                       width: 35px;
+                       height: 35px;
+                       border-radius: 50%;
+                       background: #8BC34A;
+                       color: white;
+                       font-weight: bold;
+                       font-size: 16px;
+                       box-shadow: 0 2px 4px rgba(139, 195, 74, 0.2);">
+                       <t t-esc="state.process_metrics.cpu_grade"/>
+                   </span>
+               </t>
+               <t t-elif="state.process_metrics.cpu_grade = 'C'">
+                   <span style="
+                       display: inline-flex;
+                       align-items: center;
+                       justify-content: center;
+                       width: 35px;
+                       height: 35px;
+                       border-radius: 50%;
+                       background: #FFC107;
+                       color: black;
+                       font-weight: bold;
+                       font-size: 16px;
+                       box-shadow: 0 2px 4px rgba(255, 193, 7, 0.2);">
+                       <t t-esc="state.process_metrics.cpu_grade"/>
+                   </span>
+               </t>
+               <t t-else="state.process_metrics.cpu_grade = 'D'">
+                   <span style="
+                       display: inline-flex;
+                       align-items: center;
+                       justify-content: center;
+                       width: 35px;
+                       height: 35px;
+                       border-radius: 50%;
+                       background: #F44336;
+                       color: white;
+                       font-weight: bold;
+                       font-size: 16px;
+                       box-shadow: 0 2px 4px rgba(244, 67, 54, 0.2);">
+                       <t t-esc="state.process_metrics.cpu_grade"/>
+                   </span>
+               </t>
+            </t>
+        </div>
+
+        <div style="margin-left: 50px; font-weight: bold; margin-top: 50px; display: flex; gap: 20px;">
+        <!--        Resident memory-->
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                <span class="fa fa-info-circle"
+                      title="memory that is currently in use by the process and that is not paged out to disk"/>
+                <div id="memory_info_rss">
+                    <div style="font-size: 1em; color: #555;">Resident memory(MB)</div>
+                    <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <t t-if="state.process_metrics">
+                    <t t-esc="state.process_metrics.memory_info_rss"/>
+                    </t>
+                </div>
+                <t t-if="state.process_metrics.memory_info_rss &lt;= 0.25 * state.process_metrics.total_memory ">
+                <div style="color: green;">Good</div>
+                </t>
+                <t t-elif="state.process_metrics.memory_info_rss &gt; 0.5 * state.process_metrics.total_memory ">
+                <div style="color: red;">Bad</div>
+                </t>
+                <t t-else="state.process_metrics.memory_info_rss &gt; 0.25 * state.process_metrics.total_memory and state.process_metrics.memory_info_rss &lt;= 0.5 * state.process_metrics.total_memory ">
+                <div style="color: orange;">Acceptable</div>
+                </t>
+            </div>
+
+            <!--            Virtual memory size-->
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                <span class="fa fa-info-circle"
+                      title="the total amount of virtual memory used by the process"/>
+                <div id="memory_info_vms">
+                    <div style="font-size: 1em; color: #555;">Virtual memory size(MB)</div>
+                    <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <t t-if="state.process_metrics">
+                        <t t-esc="state.process_metrics.memory_info_vms"/>
+                    </t>
+                </div>
+                <t t-if="state.process_metrics.memory_info_vms &lt;= 3 * state.process_metrics.memory_info_rss ">
+                <div style="color: green;">Good</div>
+                </t>
+                <t t-elif="state.process_metrics.memory_info_vms &gt; 5 * state.process_metrics.memory_info_rss ">
+                <div style="color: orange;">Acceptable</div>
+                </t>
+                <t t-else="">
+                <div style="color: red;">Bad</div>
+                </t>
+            </div>
+
+            <!--            Shared memory<-->
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                <span class="fa fa-info-circle"
+                      title="the portion of the process’s memory that is shared with other processes."/>
+                <div id="memory_info_shared">
+                        <div style="font-size: 1em; color: #555;">Shared memory(MB)</div>
+                    <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <t t-if="state.process_metrics">
+                            <t t-esc="state.process_metrics.memory_info_shared"/>
+                        </t>
+                    </div>
+                <t t-if="state.process_metrics.memory_info_shared &lt;= 50 ">
+                    <div style="color: green;">Good</div>
+                    </t>
+                <t t-elif="state.process_metrics.memory_info_shared &gt; 50 and state.process_metrics.memory_info_shared &lt; 200 ">
+                    <div style="color: orange;">Acceptable</div>
+                    </t>
+                <t t-else="">
+                    <div style="color: red;">Bad</div>
+                    </t>
+            </div>
+
+            <!--             Text memory-->
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                <span class="fa fa-info-circle"
+                      title="It helps understand how much memory is shared among processes."/>
+                <div id="memory_info_text">
+                    <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <t t-if="state.process_metrics">
+                    <t t-esc="state.process_metrics.memory_info_text"/>
+                    </t>
+                </div>
+                <div style="font-size: 1em; color: #555;"> Text memory(MB)</div>
+                <t t-if="state.process_metrics.memory_info_text &lt;= 10 ">
+                <div style="color: green;">Good</div>
+                </t>
+                <t t-elif="state.process_metrics.memory_info_text &gt; 10 and state.process_metrics.memory_info_text &lt;= 50 ">
+                <div style="color: orange;">Acceptable</div>
+                </t>
+                <t t-else="">
+                <div style="color: red;">Bad</div>
+                </t>
+            </div>
+
+            <!--            Data memory-->
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                <span class="fa fa-info-circle"
+                      title="memory usage related to dynamic memory allocations and the program's own data structures."/>
+                <div id="memory_info_data">
+                    <div style="font-size: 1em; color: #555;">Data memory(MB)</div>
+                    <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <t t-if="state.process_metrics">
+                    <t t-esc="state.process_metrics.memory_info_data"/>
+                    </t>
+                </div>
+                <t t-if="state.process_metrics.memory_info_data &lt;= 200 ">
+                <div style="color: green;">Good</div>
+                </t>
+                <t t-elif="state.process_metrics.memory_info_data &gt; 200 and state.process_metrics.memory_info_data &lt;= 500 ">
+                <div style="color: orange;">Acceptable</div>
+                </t>
+                <t t-else="">
+                <div style="color: red;">Bad</div>
+                </t>
+            </div>
+        </div>
+
+        <div style="max-height: 100vh; overflow-y:auto; padding: 10px; align:left ;">
+            <h3>Disk performance</h3>
+        </div>
+        <div style="margin-left: 50px; font-weight: bold; margin-top: 50px; display: flex; gap: 20px;">
+
+        <!--            Read Bytes-->
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+            <span class="fa fa-info-circle"
+                  title="The total number of bytes read from the disk."/>
+                <div id="read_bytes">
+                    <div style="font-size: 1em; color: #555;">Read Bytes</div>
+                    <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <t t-if="state.disk_metrics">
+                    <t t-esc="state.disk_metrics.read_bytes"/>
+                    </t>
+                </div>
+            </div>
+
+            <!--            Write Bytes-->
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                <span class="fa fa-info-circle"
+                      title=" The total number of bytes written to the disk."/>
+                <div id="write_bytes">
+                  <div style="font-size: 1em; color: #555;">Write Bytes</div>
+                    <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <t t-if="state.disk_metrics">
+                         <t t-esc="state.disk_metrics.write_bytes"/>
+                    </t>
+                </div>
+            </div>
+
+            <!--            Read Time-->
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                <span class="fa fa-info-circle"
+                      title="The time taken to read data from the disk"/>
+                <div id="read_time">
+                    <div style="font-size: 1em; color: #555;">Read Time</div>
+                    <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <t t-esc="state.disk_metrics.read_time"/>
+                </div>
+            </div>
+
+            <!--            Write Time-->
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                <span class="fa fa-info-circle"
+                      title=" The time taken to write data to the disk"/>
+                <div id="write_time">
+                  <div style="font-size: 1em; color: #555;">Write Time</div>
+                    <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <t t-if="state.disk_metrics">
+                         <t t-esc="state.disk_metrics.write_time"/>
+                    </t>
+                </div>
+            </div>
+
+            <!--            Total input output per sec-->
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                <span class="fa fa-info-circle"
+                      title="The total number of read/write operations the disk can handle per second."/>
+                <div id="total_iops">
+                    <div style="font-size: 1em; color: #555;">Total input Output PS</div>
+                    <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <t t-if="state.disk_metrics">
+                        <t t-esc="state.disk_metrics.total_iops"/>
+                    </t>
+                </div>
+            </div>
+
+            <!--            Read Count-->
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                <span class="fa fa-info-circle"
+                      title="The number of read operations performed on the disk."/>
+                <div id="read_count">
+                    <div style="font-size: 1em; color: #555;">Read Count</div>
+                    <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <t t-if="state.disk_metrics">
+                    <t t-esc="state.disk_metrics.read_count"/>
+                    </t>
+                </div>
+            </div>
+
+            <!--            Write Count-->
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                <span class="fa fa-info-circle"
+                      title="The number of write operations performed on the disk."/>
+                <div id="write_count">
+                    <div style="font-size: 1em; color: #555;">Write Count</div>
+                    <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <t t-if="state.disk_metrics">
+                    <t t-esc="state.disk_metrics.write_count"/>
+                    </t>
+                </div>
+            </div>
+        </div>
+        <div style="max-height: 100vh; overflow-y:auto; padding: 10px; align:left ;">
+            <h3>Concurrent sessions</h3>
+        </div>
+
+        <!--         active_sessions   -->
+        <div style="margin-left: 50px; font-weight: bold; margin-top: 50px; display: flex; gap: 20px;">
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                <span class="fa fa-info-circle"
+                      title=" The current number of user sessions or database connections"/>
+                <div id="active_connection">
+                    <div style="font-size: 1em; color: #555;">Active Connections</div>
+                    <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <t t-if="state.metrics">
+                            <t t-esc="state.concurrent_metrics.active_sessions"/>
+                        </t>
+                </div>
+                <t t-if="state.concurrent_metrics.active_sessions &lt;=  0.8 * state.concurrent_metrics.max_connections">
+                    <div style="color: green;">Good</div>
+                </t>
+                <t t-elif="state.concurrent_metrics.active_sessions &gt;  0.8 * state.concurrent_metrics.max_connections and state.concurrent_metrics.active_sessions &lt;= state.concurrent_metrics.max_connections">
+                    <div style="color: orange;">Acceptable</div>
+                </t>
+                <t t-else="state.concurrent_metrics.active_sessions &gt; state.concurrent_metrics.max_connections">
+                    <div style="color: red;">Bad</div>
+                </t>
+            </div>
+
+            <!--            Max connections-->
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                <span class="fa fa-info-circle"
+                      title="The maximum number of simultaneous database connections"/>
+                <div id="max_connections">
+                        <div style="font-size: 1em; color: #555;">Max connections</div>
+                    <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <t t-if="state.metrics">
+                            <t t-esc="state.concurrent_metrics.max_connections"/>
+                        </t>
+                    </div>
+            </div>
+
+            <!--            Server uptime-->
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                <span class="fa fa-info-circle"
+                      title="Monitor the time the server has been running without interruption."/>
+                <div id="server_uptime">
+                    <h4>Server uptime</h4>
+                    <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <t t-if="state.server">
+                         <t t-esc="state.server.uptime"/>
+                    </t>
+                </div>
+            </div>
+
+            <!--            &lt;!&ndash;            module load time&ndash;&gt;-->
+            <!--            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">-->
+            <!--                <span class="fa fa-info-circle"-->
+            <!--                      title="Track the time it takes for modules to load within the system."/>-->
+            <!--                <div id="server_uptime">-->
+            <!--                   <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>-->
+            <!--                    <h4>module load time</h4>-->
+            <!--                    <t t-if="state.server.load_module">-->
+            <!--                         <t t-esc="state.server.load_module "/>-->
+            <!--                    </t>-->
+            <!--                </div>-->
+            <!--            </div>-->
+        </div>
+
+        <div style="max-height: 100vh; overflow-y:auto; padding: 10px; align:left ;">
+            <span class="fa fa-info-circle"
+                  title="Database management and performance metrics"/>
+            <h3>Database Metrics</h3>
+        </div>
+        <div style="margin-left: 50px; font-weight: bold; margin-top: 50px; display: flex; gap: 20px;">
+             <div>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Database names</th>
+                                <th>Cache Hit Ratio</th>
+                                <th>CPU Usage Percent</th>
+                                <th>DB Size (mb)</th>
+                                <th>Deadlocks</th>
+                                <th>Long Running Queries (>5 min)</th>
+                                <th>Memory Usage (mb)</th>
+                                <th>Total Connections</th>
+                                <th>Connection Utilization</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-if="state.db_metrics">
+                            <tr>
+                            <td><t t-esc="state.db_metrics.db_name"/></td>
+                                <td><t t-esc="state.db_metrics.cache_hit_ratio"/></td>
+                                <td><t t-esc="state.db_metrics.cpu_usage_percent"/></td>
+                                <td><t t-esc="state.db_metrics.db_size_mb"/></td>
+                                <td><t t-esc="state.db_metrics.deadlocks"/></td>
+                                <td><t t-esc="state.db_metrics.long_running_queries"/></td>
+                                <td><t t-esc="state.db_metrics.memory_usage_mb"/></td>
+                                <td><t t-esc="state.db_metrics.total_connections"/></td>
+                                <t t-if="state.db_metrics.connection_utilization">
+                            <td>
+                                 <t t-if="state.db_metrics.connection_utilization &gt;=  80">
+                                     <t t-esc="state.db_metrics.connection_utilization"/>
+                                     <div style="color: red;">Critical</div>
+                                 </t>
+
+                                <t t-if="state.db_metrics.connection_utilization &lt;=  70">
+                                    <t t-esc="state.db_metrics.connection_utilization"/>
+                                    <div style="color: green;">Good</div>
+                                </t>
+
+                                <t t-if="state.db_metrics.connection_utilization &gt;  70 and state.db_metrics.connection_utilization &lt; 80">
+                                    <t t-esc="state.db_metrics.connection_utilization"/>
+                                    <div style="color: orange;">Warning</div>
+                                </t>
+                            </td>
+                            </t>
+                            </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                 </div>
+        </div>
+        <div style="max-height: 100vh; overflow-y:auto; padding: 10px; align:left ;">
+            <span class="fa fa-info-circle"
+                  title=" Monitor file operations in the database (storage, retrieval)"/>
+            <h3>File Handling Metrics</h3>
+        </div>
+        <div style="margin-left: 50px; font-weight: bold; margin-top: 50px; display: flex; gap: 20px;">
+            <!--            File access failures-->
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                <div id="access_failures">
+                   <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <h4>Access Failures (last 30 days)</h4>
+                    <t t-if="state.file_metrics">
+                         <t t-esc="state.file_metrics.access_failures"/>
+                    </t>
+                </div>
+                <div style="font-size: 1em; color: #555;"></div>
+            </div>
+
+            <!--            Average file size-->
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                <span class="fa fa-info-circle"
+                      title="it calculates the files average size in MB."/>
+                <div id="average_size">
+                   <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <h4>Average Size In MB</h4>
+                    <t t-if="state.file_metrics.average_size">
+                         <t t-esc="state.file_metrics.average_size"/>
+                    </t>
+                </div>
+                <div style="font-size: 1em; color: #555;"></div>
+            </div>
+
+            <!--            Deleted files-->
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                 <span class="fa fa-info-circle"
+                       title="Number of deleted files in the last 30 days."/>
+                <div id="deleted_files">
+                   <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <h4>Deleted Files(last 30 days)</h4>
+                    <t t-if="state.file_metrics">
+                         <t t-esc="state.file_metrics.deleted_files"/>
+                    </t>
+                </div>
+                <div style="font-size: 1em; color: #555;"></div>
+            </div>
+
+            <!--            Total files size-->
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                <span class="fa fa-info-circle"
+                      title=" Total size of all files uploaded, in MB."/>
+                <div id="total_size">
+                   <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <h4>Total Files Size in MB</h4>
+                    <t t-if="state.file_metrics.total_size_mb &lt;= state.file_metrics.safe_upload_limit ">
+                         <t t-esc="state.file_metrics.total_size_mb"/>
+                        <div style="color: green;">Good</div>
+                    </t>
+                    <t t-if="state.file_metrics.total_size_mb &gt; state.file_metrics.safe_upload_limit ">
+                         <t t-esc="state.file_metrics.total_size_mb"/>
+                        <div style="color: red;">Bad</div>
+                    </t>
+                </div>
+                <div style="font-size: 1em; color: #555;"></div>
+            </div>
+
+            <!--            Uploaded files-->
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                 <span class="fa fa-info-circle"
+                       title="Number of files uploaded in the last 30 days."/>
+                <div id="uploaded_files">
+                   <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <h4>Uploaded Files (last 30 days)</h4>
+                    <t t-if="state.file_metrics">
+                         <t t-esc="state.file_metrics.uploaded_files"/>
+                    </t>
+                </div>
+            </div>
+
+            <!--            Maximum file size-->
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                <span class="fa fa-info-circle"
+                      title="Maximum file size of the files uploaded in the last 30 days."/>
+                <div id="max_size">
+                   <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                    <h4>Maximum size</h4>
+                    <t t-if="state.file_metrics">
+                         <t t-esc="state.file_metrics.max_size"/>
+                    </t>
+                </div>
+            </div>
+        </div>
+        <div style="margin-left: 50px; font-weight: bold; margin-top: 50px; display: flex; gap: 20px;">
+            <div>
+            <span class="fa fa-info-circle"
+                  title="file types and it’s counts which are present"/>
+                <h3>File Types</h3>
+                <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>File types</th>
+                        <th>Count</th>
+
+                    </tr>
+                </thead>
+                    <tbody>
+                    <t t-if="state.file_metrics.file_types">
+                        <t t-foreach="state.file_metrics.file_types" t-as="file" t-key="file">
+                            <tr>
+                            <td><t t-out="file"/>
+                            </td>
+                                <td>
+                            <t t-esc="state.file_metrics.file_types[file]"/>
+                            </td>
+                        </tr>
+                        </t>
+                    </t>
+                </tbody>
+            </table>
+            </div>
+
+            <!--            File distribution-->
+            <div>
+            <span class="fa fa-info-circle"
+                  title="Size distribution of files in the system"/>
+                <h3>File Size Distribution</h3>
+                <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Sizes</th>
+                        <th>Count</th>
+                    </tr>
+                </thead>
+                    <tbody>
+                    <t t-if="state.file_metrics.file_distribution">
+                        <t t-foreach="state.file_metrics.file_distribution" t-as="size" t-key="size">
+                            <tr>
+                            <td><t t-out="size"/>
+                            </td>
+                                <td>
+                            <t t-esc="state.file_metrics.file_distribution[size]"/>
+                            </td>
+                        </tr>
+                        </t>
+                    </t>
+                </tbody>
+            </table>
+            </div>
+        </div>
+        <style>html .o_web_client > .o_action_manager {overflow:scroll;}</style>
+    </t>
+        </templates>

@@ -1,0 +1,14 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_appointment_schedule_manager,access.appointment.schedule.manager,model_appointment_schedule,costcut.group_costcut_manager,1,1,1,1
+access_appointment_schedule_user,access.appointment.schedule.user,model_appointment_schedule,costcut.group_costcut_user,1,1,1,1
+access_costcut_order_line_manager,access.costcut.order.line.manager,model_costcut_order_line,costcut.group_costcut_manager,1,1,1,1
+access_costcut_order_line_user,access.costcut.order.line.user,model_costcut_order_line,costcut.group_costcut_user,1,1,1,1
+access_tag_color_manager,access.tag.color.manager,model_tag_color,costcut.group_costcut_manager,1,1,1,1
+access_tag_color_user,access.tag.color.user,model_tag_color,costcut.group_costcut_user,1,0,0,0
+access_discount_type_manager,access.discount.type.manager,model_discount_type,costcut.group_costcut_manager,1,1,1,1
+access_discount_type_user,access.discount.type.user,model_discount_type,costcut.group_costcut_user,1,0,0,0
+access_customer_type_manager,access.customer.type.manager,model_customer_type,costcut.group_costcut_manager,1,1,1,1
+access_customer_type_user,access.customer.type.user,model_customer_type,costcut.group_costcut_user,1,0,0,0
+access_scheduler_config_manager,access.scheduler.config.manager,model_scheduler_config,costcut.group_costcut_manager,1,1,0,0
+access_scheduler_config_user,access.scheduler.config.user,model_scheduler_config,costcut.group_costcut_user,1,0,0,0
+access_calendar_emp_filter,access.calendar.emp.filter,model_calendar_emp_filter,costcut.group_costcut_manager,1,1,1,1

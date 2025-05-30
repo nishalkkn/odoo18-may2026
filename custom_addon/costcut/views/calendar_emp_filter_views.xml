@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <!-- Create a tree (list) view to display the records of calendar.emp.filter -->
+    <record id="view_calendar_emp_filter_tree" model="ir.ui.view">
+        <field name="name">calendar.emp.filter.tree</field>
+        <field name="model">calendar.emp.filter</field>
+        <field name="arch" type="xml">
+            <list string="Employee Filters">
+                <!-- Ensure the field names are correct and exist in the model -->
+                <field name="employee_id"/>
+                <field name="active"/>
+                <field name="staff_checked"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Create a menu action to open the view -->
+    <record id="action_calendar_emp_filter" model="ir.actions.act_window">
+        <field name="name">Employee Filters</field>
+        <field name="res_model">calendar.emp.filter</field>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="view_calendar_emp_filter_tree"/>
+        <field name="target">current</field>
+    </record>
+</odoo>

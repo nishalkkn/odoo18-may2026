@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="cron_poll_reminder" model="ir.cron">
+        <field name="name">Poll Reminder and Auto-Close</field>
+        <field name="model_id" ref="model_employee_poll"/>
+        <field name="state">code</field>
+        <field name="code">
+            model._run_reminder_and_close()
+        </field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+    </record>
+</odoo>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Record for the form view of the 'appointment.schedule' model -->
+    <record id="appointment_schedule_wizard_view_form" model="ir.ui.view">
+        <field name="name">appointment.schedule.wizard.view.form</field>
+        <field name="model">appointment.schedule</field>
+        <field name="arch" type="xml">
+            <form string="Schedule">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="mobile"/>
+                            <field name="birth_month"/>
+                            <field name="birth_date"/>
+                            <field name="discount_type_id"/>
+                            <field name="discount_expiry"/>
+                            <field name="customer_type_id"/>
+                        </group>
+                    </group>
+                    <field name="order_line" no_label="True" widget="one2many">
+                        <list editable="bottom">
+                            <field name="product_id" string="Services &amp; Products"
+                                   domain="[('type', 'in', ['service'])]" />
+                            <field name="currency_id" column_invisible="True"/>
+                            <field name="customer_type_id"/>
+                            <field name="price" widget="monetary"/>
+                            <field name="time_from"/>
+                            <field name="time_to"/>
+                            <field name="employee_id" force_save="1"/>
+                        </list>
+                    </field>
+                </sheet>
+                <footer>
+                    <button string="Create" type="object" name="create_record" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

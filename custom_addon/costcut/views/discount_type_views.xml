@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="discount_type_view_form" model="ir.ui.view">
+        <field name="name">discount.type.view.form</field>
+        <field name="model">discount.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <div class="oe_avatar m-0 p-0">
+                        <field name="image_1920" widget="image"/>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="color" widget="color"/>
+                            <field name="discount_expiry"/>
+                            <field name="applied_to_product"/>
+                            <field name="product_discount" invisible="not applied_to_product"/>
+                        </group>
+                        <group>
+                            <field name="applied_to_service"/>
+                            <field name="service_discount" invisible="not applied_to_service"/>
+                            <field name="product_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_discount_type" model="ir.actions.act_window">
+        <field name="name">Discount Type</field>
+        <field name="res_model">discount.type</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Discount
+            </p>
+        </field>
+    </record>
+</odoo>

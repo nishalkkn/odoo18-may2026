@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Poll Form View -->
+    <record id="view_employee_poll_form" model="ir.ui.view">
+        <field name="name">employee.poll.form</field>
+        <field name="model">employee.poll</field>
+        <field name="arch" type="xml">
+            <form string="Poll">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="state" readonly="1"/>
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                        <field name="allow_multiple"/>
+                        <field name="target_all"/>
+                        <field name="department_ids" widget="many2many_tags"
+                               attrs="{'invisible': [('target_all', '=', True)]}"/>
+                    </group>
+                    <notebook>
+                        <page string="Options">
+                            <field name="option_ids">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="vote_count" readonly="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Votes">
+                            <field name="vote_ids" readonly="1">
+                                <tree>
+                                    <field name="employee_id"/>
+                                    <field name="option_ids" widget="many2many_tags"/>
+                                    <field name="vote_date"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Poll Tree View -->
+    <record id="view_employee_poll_tree" model="ir.ui.view">
+        <field name="name">employee.poll.tree</field>
+        <field name="model">employee.poll</field>
+        <field name="arch" type="xml">
+            <tree string="Polls">
+                <field name="name"/>
+                <field name="state"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="total_votes"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Poll Action -->
+    <record id="action_employee_poll" model="ir.actions.act_window">
+        <field name="name">Polls</field>
+        <field name="res_model">employee.poll</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

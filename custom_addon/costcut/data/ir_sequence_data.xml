@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="sequence_appointment_schedule" model="ir.sequence">
+        <field name="name">Appointment schedule</field>
+        <field name="code">appointment.schedule.sequence</field>
+        <field name="prefix">C</field>
+        <field name="number_increment">1</field>
+        <field name="padding">4</field>
+    </record>
+</odoo>

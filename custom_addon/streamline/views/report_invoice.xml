@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="report_invoice_document_inherit" inherit_id="account.report_invoice_document">
+        <xpath expr="//div[@id='payment_term']//p[@name='payment_communication']" position="after">
+            <div>
+                <t t-if="o.bank_details_id">
+                    <!--                    <strong>-->
+                    <!--                    <h6>-->
+                    <div>
+                        <b>Please Remit Electronic Payments to:</b>
+                        <!--                    </h6>-->
+                        <!--                    </strong>-->
+                        <div style="white-space: pre-line;">
+                            <t t-esc="o.bank_details_id.bank_details"/>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="custom_document_tax_totals" inherit_id="account.document_tax_totals_template">
+        <xpath expr="//tr[@class='o_total']/td[1]" position="replace">
+            <td>
+                <strong>Total (<t t-esc="o.currency_id.name"/>)
+                </strong>
+            </td>
+        </xpath>
+    </template>
+
+</odoo>
+
+

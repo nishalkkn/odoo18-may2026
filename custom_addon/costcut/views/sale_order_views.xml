@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="sale_order_view_form_costcut" model="ir.ui.view">
+        <field name="name">sale.order.view.form.inherit.sale</field>
+        <field name="model">sale.order</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <field name="partner_invoice_id" position="before">
+                <field name="mobile"/>
+                <field name="invoice_status"/>
+                <field name="paid_date"/>
+            </field>
+            <field name="pricelist_id" position="after">
+                <field name="customer_type_id"/>
+                <field name="discount_type_id"/>
+            </field>
+            <field name="payment_term_id" position="before">
+                <field name="appointment_date"/>
+            </field>
+            <field name="state" position="replace">
+                <field name="order_state" widget="statusbar"/>
+            </field>
+            <xpath expr="//field[@name='order_line']/list/field[@name='product_id']" position="replace">
+                <field name="product_id" string="Services &amp; Products"
+                       domain="[('type', 'in', ['service', 'consu'])]"/>
+            </xpath>
+            <xpath expr="//field[@name='order_line']/list/field[@name='qty_invoiced']" position="after">
+                <field name="employee_id"/>
+                <field name="time_from"/>
+                <field name="time_to"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="sale_order_view_list_costcut" model="ir.ui.view">
+        <field name="name">sale.order.view.list.inherit.sale</field>
+        <field name="model">sale.order</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="appointment_date"/>
+                <field name="partner_id"/>
+                <field name="customer_type_id"/>
+                <field name="order_state"/>
+            </list>
+        </field>
+    </record>
+    <record id="appointment_schedule_window_action" model="ir.actions.act_window">
+        <field name="name">Appointment History</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'list', 'view_id': ref('sale_order_view_list_costcut')}),
+                (0, 0, {'view_mode': 'form', 'view_id': ref('sale_order_view_form_costcut')})]"/>
+        <field name="domain">[('is_appointment','=',True)]</field>
+    </record>
+    <!--    <record id="appointment_schedule_action" model="ir.actions.client">-->
+    <!--        <field name="name">Appointment Schedule</field>-->
+    <!--        <field name="tag">costcut_calendar</field>-->
+    <!--    </record>-->
+    <!--    <record id="costcut_appointment_schedule_action" model="ir.actions.client">-->
+    <!--        <field name="name">Appointment Schedule</field>-->
+    <!--        <field name="tag">costcut_calendar_booking</field>-->
+    <!--    </record>-->
+    <record id="costcut_calendar_view" model="ir.ui.view">
+        <field name="name">costcut.calendar.view</field>
+        <field name="model">sale.order.line</field>
+        <field name="arch" type="xml">
+            <calendar string="Costcut calendar Chart" date_start="time_from" date_stop="time_to" mode="day"
+                      js_class="cost_extended_calendar">
+                <field name="employee_id"/>
+                <field name="time_from"/>
+                <field name="time_to"/>
+                <!--                <field name="employee_id" filters="1" options="{'block': True, 'icon': 'fa fa-users'}"  write_model="calendar.emp.filter" write_field="employee_id"-->
+                <!--                       filter_field="staff_checked" avatar_field="avatar_128"/>-->
+            </calendar>
+        </field>
+    </record>
+    <record id="costcut_appointment_schedule_action" model="ir.actions.act_window">
+        <field name="name">Costcut Calendar</field>
+        <field name="res_model">sale.order.line</field>
+        <field name="view_mode">calendar</field>
+        <field name="view_id" ref="costcut_calendar_view"/>
+        <field name="target">current</field>
+    </record>
+
+    <!--        custom calendar-->
+    <record id="view_sale_order_line_calendar" model="ir.ui.view">
+        <field name="name">sale.order.line.calendar</field>
+        <field name="model">sale.order.line</field>
+        <field name="arch" type="xml">
+            <calendar string="Order Lines Calendar" date_start="time_from" date_stop="time_to"
+                      js_class="calendar_with_employees">
+                <field name="name"/>
+                <field name="employee_id"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record id="action_sale_order_line_calendar" model="ir.actions.act_window">
+        <field name="name">Order Lines Calendar</field>
+        <field name="res_model">sale.order.line</field>
+        <field name="view_mode">calendar</field>
+        <field name="view_id" ref="view_sale_order_line_calendar"/>
+        <field name="target">current</field>
+    </record>
+
+</odoo>

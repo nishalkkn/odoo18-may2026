@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Definition of the list view for 'tag.color' model -->
+    <record id="scheduler_config_view_list" model="ir.ui.view">
+        <field name="name">scheduler.config.view.list</field>
+        <field name="model">scheduler.config</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="time_from" widget="float_time"/>
+                <field name="time_to" widget="float_time"/>
+                <field name="duration" widget="float_time"/>
+                <field name="booked" widget="color"/>
+                <field name="cancel" widget="color"/>
+                <field name="confirm" widget="color"/>
+                <field name="execute" widget="color"/>
+                <field name="paid" widget="color"/>
+                <field name="arrived" widget="color"/>
+                <field name="no_show" widget="color"/>
+                <field name="done" widget="color"/>
+            </list>
+        </field>
+    </record>
+    <record id="scheduler_config_view_form" model="ir.ui.view">
+        <field name="name">scheduler.config.view.form</field>
+        <field name="model">scheduler.config</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="time_from" widget="float_time"/>
+                            <field name="time_to" widget="float_time"/>
+                            <field name="duration" widget="float_time"/>
+                        </group>
+                    </group>
+                    <separator string="Color Codes for Appointments"/>
+                    <group>
+                        <group>
+                            <field name="booked" widget="color"/>
+                            <field name="cancel" widget="color"/>
+                            <field name="confirm" widget="color"/>
+                            <field name="execute" widget="color"/>
+                        </group>
+                        <group>
+                            <field name="paid" widget="color"/>
+                            <field name="arrived" widget="color"/>
+                            <field name="no_show" widget="color"/>
+                            <field name="done" widget="color"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Action for opening the Tag Color list view -->
+    <record id="action_scheduler_config" model="ir.actions.act_window">
+        <field name="name">Scheduler Config</field>
+        <field name="res_model">scheduler.config</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

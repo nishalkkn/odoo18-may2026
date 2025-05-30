@@ -1,0 +1,568 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="web_health_template" xml:space="preserve">
+	<t t-name="odoo_health_report_tool.WebsiteConfigurator">
+        <div class="text-center my-4">
+			<h1 class="display-4 text-primary" style="margin:20px;">
+            Website Details
+        </h1>
+		</div>
+
+        <div style="padding: 32px; margin-left: 50px; margin-right: 50px;">
+			<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
+				<!-- SEO Metrics Card with Scroll -->
+                <div style="background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); padding: 24px; height: 400px; display: flex; flex-direction: column;">
+					<h2 style="font-size: 20px; font-weight: bold; color: #1f2937; margin-bottom: 16px;">SEO Analysis</h2>
+                    <!-- Scrollable Container -->
+                    <div style="overflow-y: auto; flex-grow: 1; padding-right: 10px;">
+						<!-- Title Metrics -->
+                        <div style="margin-bottom: 24px;">
+							<div style="display: flex; align-items: center; gap: 20px; margin-bottom: 8px;">
+								<span style="font-weight: 600; color: #374151;">Title:</span>
+                                <span t-esc="state.seo_metrics.title" style="color: #4b5563;"/>
+							</div>
+                            <div t-if="state.seo_metrics.title" style="margin-left: 16px;">
+								<div style="font-size: 14px; color: #4b5563;">
+                            Length:
+									<span t-esc="state.seo_metrics.title.length"/>
+								</div>
+                                <div t-if="state.seo_metrics.title.length &gt; 50 and state.seo_metrics.title.length &lt; 60"
+                                     style="color: #10b981; font-size: 14px;">
+                            ✓ Optimal length
+                        </div>
+                                <div t-elif="(state.seo_metrics.title.length &gt; 30 and state.seo_metrics.title.length &lt; 50) or
+                                     (state.seo_metrics.title.length &gt; 60 and state.seo_metrics.title.length &lt; 70)"
+                                     style="color: #f59e0b; font-size: 14px;">
+                            ⚠ Needs improvement. Keep the website title length between 50 and 60 characters for good SEO performance
+                        </div>
+                                <div t-else="" style="color: #ef4444; font-size: 14px;">
+                            ⚠ Poor length. Keep the website title length between 50 and 60 characters for good SEO performance
+                        </div>
+							</div>
+						</div>
+                        <!-- Meta Description -->
+                        <div style="margin-bottom: 24px;">
+							<div style="display: flex; align-items: center; gap: 20px; margin-bottom: 8px;">
+								<span style="font-weight: 600; color: #374151;">Meta Description:</span>
+                                <span t-esc="state.seo_metrics.meta_description" style="color: #4b5563;"/>
+							</div>
+                            <div t-if="state.seo_metrics.meta_description" style="margin-left: 16px;">
+								<div style="font-size: 14px; color: #4b5563;">
+                            Length:
+									<span t-esc="state.seo_metrics.meta_description.length"/>
+								</div>
+                                <div t-if="state.seo_metrics.meta_description.length &gt; 150 and state.seo_metrics.meta_description.length &lt; 160"
+                                     style="color: #10b981; font-size: 14px;">
+                            ✓ Optimal length
+                        </div>
+                                <div t-elif="(state.seo_metrics.title.length &gt;=70 and state.seo_metrics.title.length &lt; 150) or
+                                     (state.seo_metrics.title.length &gt;=160 and state.seo_metrics.title.length &lt; 180)"
+                                     style="color: #f59e0b; font-size: 14px;">
+                            ⚠ Needs improvement. Keep the website meta description length between 150 and 160 characters for good SEO performance
+                        </div>
+                                <div t-else="" style="color: #ef4444; font-size: 14px;">
+                            ⚠ Poor length. Keep the website meta description length between 150 and 160 characters for good SEO performance
+                        </div>
+							</div>
+						</div>
+                        <!-- Keywords -->
+                        <div style="margin-bottom: 24px;">
+							<span style="font-weight: 600; color: #374151;">Keywords:</span>
+                            <div style="margin-left: 16px; color: #4b5563;" t-esc="state.seo_metrics.keywords"/></div>
+					</div>
+				</div>
+                <!-- Performance Metrics Grid -->
+                <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px;">
+					<!-- Status Code -->
+                    <div style="background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); padding: 24px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+						<span style="font-size: 30px; font-weight: bold; color: #1f2937;"
+                              t-esc="state.performance_metrics.status_code"/>
+                        <span style="font-size: 14px; color: #6b7280; margin-top: 8px;">Status Code</span>
+					</div>
+                    <!-- Page Size -->
+                    <div style="background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); padding: 24px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+						<div style="text-align: center;">
+							<span style="font-size: 30px; font-weight: bold; color: #1f2937;"
+                                  t-esc="state.performance_metrics.page_size"/>
+                            <span style="font-size: 20px; font-weight: 600; color: #4b5563;">KB</span>
+						</div>
+                        <span style="font-size: 14px; color: #6b7280; margin-top: 8px;">Page Size</span>
+                        <div t-if="state.performance_metrics.page_size &lt; 800"
+                             style="color: #10b981; font-size: 14px; margin-top: 8px;">
+                            ✓ Optimal
+                        </div>
+                        <div t-elif="state.performance_metrics.page_size &gt;= 800 and state.performance_metrics.page_size &lt;= 1024"
+                             style="color: #f59e0b; font-size: 14px; margin-top: 8px;">
+                            ⚠ Needs Improvement (Reduce below 800KB)
+                        </div>
+                        <div t-else=""
+                             style="color: #ef4444; font-size: 14px; margin-top: 8px;">
+                            ✗ Poor (Significantly reduce size below 800KB)
+                        </div>
+					</div>
+                    <!-- Status -->
+                    <div style="background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); padding: 24px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+						<span style="font-size: 30px; font-weight: bold; color: #1f2937;"
+                              t-esc="state.performance_metrics.status"/>
+                        <span style="font-size: 14px; color: #6b7280; margin-top: 8px;">Status</span>
+					</div>
+				</div>
+                <!-- Security Metrics -->
+                <div style="background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); padding: 24px; grid-column: span 2;">
+					<h2 style="font-size: 20px; font-weight: bold; color: #1f2937; margin-bottom: 16px;">Content Security Policy</h2>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;"
+                         t-if="state.csp_metrics.csp">
+						<t t-foreach="Object.entries(state.csp_metrics.csp)" t-as="entry" t-key="entry[0]">
+							<div style="margin-bottom: 16px;">
+								<div style="display: flex; align-items: center; gap: 20px; margin-bottom: 8px;">
+                                    <t t-if="entry[0] == 'default-src'">
+                                        <span class="fa fa-info-circle"
+                                              title="default-src defines the default source policy for loading all content types unless explicitly specified otherwise"/>
+									</t>
+                                    <t t-elif="entry[0] == 'script-src'">
+		                                <span class="fa fa-info-circle"
+                                              title=" script-src controls the sources from which JavaScript can be loaded, preventing malicious script injections"/>
+									</t>
+                                    <t t-elif="entry[0] == 'style-src'">
+		                                <span class="fa fa-info-circle"
+                                              title=" style-src restricts the sources of CSS to avoid unauthorized style modifications"/>
+									</t>
+                                    <t t-elif="entry[0] == 'img-src'">
+		                                <span class="fa fa-info-circle"
+                                              title="img-src specifies allowed image sources to block loading images from untrusted locations"/>
+									</t>
+                                    <t t-elif="entry[0] == 'connect-src'">
+		                                <span class="fa fa-info-circle"
+                                              title="connect-src limits the URLs that the application can fetch data from (e.g., AJAX requests or WebSocket connections"/>
+									</t>
+                                    <t t-elif="entry[0] == 'font-src'">
+		                                <span class="fa fa-info-circle"
+                                              title="font-src: Controls the sources for loading web fonts, ensuring they come from trusted domains"/>
+									</t>
+                                    <t t-elif="entry[0] == 'object-src'">
+		                                <span class="fa fa-info-circle"
+                                              title="object-src restricts the sources of plugins like Flash or Java applets to improve security"/>
+									</t>
+                                    <t t-elif="entry[0] == 'media-src'">
+		                                <span class="fa fa-info-circle"
+                                              title="media-src defines the allowed sources for audio and video content, protecting against rogue media links"/>
+									</t>
+                                    <t t-elif="entry[0] == 'frame-src'">
+		                                <span class="fa fa-info-circle"
+                                              title="frame-src limits the sources from which the site can load frames, safeguarding against clickjacking"/>
+									</t>
+                                    <t t-elif="entry[0] == 'child-src'">
+		                                <span class="fa fa-info-circle"
+                                              title="child-src specifies allowed sources for child browsing contexts, like iframes or web workers"/>
+									</t>
+                                    <t t-elif="entry[0] == 'manifest-src'">
+		                                <span class="fa fa-info-circle"
+                                              title="manifest-src restricts the location of web app manifests used for progressive web apps"/>
+									</t>
+                                    <t t-elif="entry[0] == 'worker-src'">
+		                                <span class="fa fa-info-circle"
+                                              title="worker-src controls the origins from which workers like Web Workers and Shared Workers can be loaded"/>
+									</t>
+                                    <t t-elif="entry[0] == 'form-action'">
+		                                <span class="fa fa-info-circle"
+                                              title="form-action specifies allowed endpoints for form submissions to prevent form hijacking attacks"/>
+									</t>
+                                    <t t-elif="entry[0] == 'frame-ancestors'">
+		                                <span class="fa fa-info-circle"
+                                              title="frame-ancestors restricts the domains allowed to embed the site in a frame, protecting against clickjacking"/>
+									</t>
+                                    <t t-elif="entry[0] == 'block-all-mixed-content'">
+		                                <span class="fa fa-info-circle"
+                                              title="block-all-mixed-content ensures all resources are loaded over HTTPS to avoid mixed-content vulnerabilities"/>
+									</t>
+                                    <t t-elif="entry[0] == 'require-trusted-types-for'">
+		                                <span class="fa fa-info-circle"
+                                              title="require-trusted-types-for enforces the use of Trusted Types to prevent cross-site scripting (XSS) attacks"/>
+									</t>
+                                    <t t-elif="entry[0] == 'trusted-types'">
+		                                <span class="fa fa-info-circle"
+                                              title="trusted-types defines policies to control and mitigate DOM-based XSS by using Trusted Types"/>
+									</t>
+                                    <t t-else="">
+		                                <span class="fa fa-info-circle"
+                                              title="upgrade-insecure-requests automatically upgrades HTTP requests to HTTPS for better security"/>
+									</t>
+                                    <!--									Show csp components-->
+                                    <span style="font-weight: 600; color: #374151;" t-esc="entry[0]"/>:
+                                    <span t-if="entry[1] == 'Not Present'" style="color: #ef4444;">✗ Not Present</span>
+                                    <span t-else="" style="color: #10b981;">✓ Present</span>
+									</div>
+							</div>
+						</t>
+					</div>
+				</div>
+			</div>
+		</div>
+
+        <div style="margin-left: 50px; margin-top: 50px; display: flex; gap: 20px; width:100%;">
+			<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; width:100%; margin-left: 50px; margin-right: 100px;">
+				<div style="background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); padding: 24px; grid-column: span 2;">
+					<h2 style="font-size: 20px; font-weight: bold; color: #1f2937; margin-bottom: 16px;">Security Headers</h2>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;"
+                         t-if="state.security_header_metrics.security_headers">
+						<t t-foreach="Object.entries(state.security_header_metrics.security_headers)" t-as="metrics"
+                           t-key="metrics[0]">
+							<div style="margin-bottom: 16px;">
+								<div style="display: flex; align-items: center; gap: 20px; margin-bottom: 8px;">
+                                <t t-if="metrics[0] == 'X-Content-Type-Options'">
+		                                <span class="fa fa-info-circle"
+                                              title="X Content Type Options prevents browsers from misinterpreting file types, reducing the risk of
+                            					cross-site scripting (XSS) attacks"/>
+                                    <br/>
+									</t>
+                                    <t t-elif="metrics[0] == 'X-Frame-Options'">
+		                                <span class="fa fa-info-circle"
+                                              title="X frame options prevents clickjacking attacks by blocking your Odoo website from being embedded
+                            in an iframe on malicious sites"/>
+                                        <br/>
+									</t>
+                                    <t t-elif="metrics[0] == 'Referrer-Policy'">
+		                                <span class="fa fa-info-circle"
+                                              title=" Referrer policy options controls the information sent with the Referer header, enhancing privacy by
+                            preventing sensitive data from being exposed to third-party websites"/>
+                                        <br/>
+									</t>
+                                    <t t-elif="metrics[0] == 'Permissions-Policy'">
+		                                <span class="fa fa-info-circle"
+                                              title="Permissions policy controls which features and APIs can be accessed by your Odoo website, limiting
+                            exposure to potential security vulnerabilities"/>
+                                        <br/>
+									</t>
+                                    <t t-elif="metrics[0] == 'Cross-Origin-Resource-Policy'">
+		                                <span class="fa fa-info-circle"
+                                              title="Cross origin resource restricts how your Odoo website's resources are shared with other origins, helping to prevent unauthorized cross-origin data leaks"/>
+                                        <br/>
+									</t>
+                                    <t t-elif="metrics[0] == 'Cache-Control'">
+		                                <span class="fa fa-info-circle"
+                                              title="Cache control options defines how your Odoo website's content is cached, preventing unauthorized access to sensitive data from shared or outdated caches"/>
+                                        <br/>
+									</t>
+                                    <t t-elif="metrics[0] == 'Expect-CT'">
+		                                <span class="fa fa-info-circle"
+                                              title="Expect ct ensures your Odoo website's SSL/TLS certificates are logged in Certificate Transparency logs, preventing the use of unauthorized or mis-issued certificates"/>
+                                        <br/>
+									</t>
+                                    <t t-elif="metrics[0] == 'Access-Control-Allow-Origin'">
+									<span class="fa fa-info-circle"
+                                          title="Access control allow origin controls which domains can access your Odoo website's resources, preventing unauthorized cross-origin requests and protecting against data exposure"/>
+                                        <br/>
+									</t>
+                                    <t t-elif="metrics[0] == 'X-XSS-Protection'">
+		                                <span class="fa fa-info-circle"
+                                              title="X xss protection options enables the browser's built-in XSS filter, helping to detect and block cross-site scripting (XSS) attacks on your Odoo website"/>
+                                        <br/>
+									</t>
+                                    <t t-elif="metrics[0] == 'Content-Encoding'">
+		                                <span class="fa fa-info-circle"
+                                              title="Content encoding options specifies how your Odoo website's responses are compressed, optimizing performance and preventing vulnerabilities like compression-based attacks"/>
+                                        <br/>
+									</t>
+                                    <t t-elif="metrics[0] == 'Strict-Transport-Security'">
+		                                <span class="fa fa-info-circle"
+                                              title="Strict transport security options ensures that browsers only connect to your Odoo website over HTTPS, preventing downgrade attacks and man-in-the-middle (MITM) attacks"/>
+                                        <br/>
+									</t>
+                                    <!--									Show security headers-->
+                                    <span style="font-weight: 600; color: #374151;" t-esc="metrics[0]"/>:
+                                    <span t-if="metrics[1] == 'Not Set'" style="color: #ef4444;">✗ Not Set</span>
+                                    <span t-else="" style="color: #10b981;">
+										<t t-esc="metrics[1]"/>
+                                        <br/>
+									</span>
+								</div>
+							</div>
+						</t>
+					</div>
+				</div>
+			</div>
+		</div>
+        <div style="margin-left: 50px; margin-top: 50px; display: flex; gap: 20px; width:100%;">
+			<t t-if="state.internal_external_social_metrics">
+				<!-- Internal links -->
+                <div style="align-items: center; padding: 20px; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 25%; background-color: #fff; height: 300px; overflow-y: auto;">
+					<label style="font-size: 1.5em; font-weight: bold; color: #333;margin-bottom: 10px;">Internal links</label>
+                    <br/>
+                    <label style="font-size: 1em; font-weight: bold; color: #333;margin-bottom: 10px; padding-right:10px">Count : </label>
+                    <t t-esc="state.internal_external_social_metrics.internal_links_count"/>
+                    <br/>
+                    <div>
+						<t t-if="state.internal_external_social_metrics.internal_links">
+							<t t-foreach="state.internal_external_social_metrics.internal_links" t-as="internal_link"
+                               t-key="internal_link_index">
+								<span style="margin-right:5px;">•</span>
+                                <t t-esc="internal_link"/>
+                                <br/>
+							</t>
+						</t>
+                        <t t-else="">
+							<div style="margin-top: 10px; color: #666; font-style: italic;">
+                        No internal links found
+                    </div>
+						</t>
+					</div>
+                    <t t-if="state.internal_external_social_metrics.internal_links_count and state.performance_metrics.page_size">
+						<t t-if="state.internal_external_social_metrics.internal_links_count &lt; state.performance_metrics.page_size and state.internal_external_social_metrics.internal_links_count &gt; state.performance_metrics.page_size/2">
+							<span style="color: green;">Internal links count is optimum</span>
+						</t>
+                        <t t-elif="(state.internal_external_social_metrics.internal_links_count &lt; state.performance_metrics.page_size/2 and state.internal_external_social_metrics.internal_links_count &gt; state.performance_metrics.page_size/4) or (state.internal_external_social_metrics.internal_links_count &gt; state.performance_metrics.page_size and state.internal_external_social_metrics.internal_links_count &lt; state.performance_metrics.page_size*1.5)">
+							<span style="color: orange;">Internal links count needs improvement.</span>
+                            <br/>
+                            Keep the internal link count between
+
+                            <t t-esc="state.performance_metrics.page_size/2 | int"/>
+                            and
+
+                            <t t-esc="state.performance_metrics.page_size | int"/>
+                            for good SEO practice with respect to your page size.
+                	</t>
+                        <t t-else="">
+							<span style="color: red;">Internal links count is poor.</span>
+                            <br/>
+                            Keep the internal link count between
+
+                            <t t-esc="state.performance_metrics.page_size/2 | int"/>
+                            and
+
+                            <t t-esc="state.performance_metrics.page_size | int"/>
+                            for good SEO practice with respect to your page size.
+                </t>
+					</t>
+				</div>
+                <!-- External links -->
+                <div style="align-items: center; padding: 20px; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 25%; background-color: #fff; height: 300px; overflow-y: auto;">
+					<label style="font-size: 1.5em; font-weight: bold; color: #333;margin-bottom: 10px;">External links</label>
+                    <br/>
+                    <label style="font-size: 1em; font-weight: bold; color: #333;margin-bottom: 10px; padding-right:10px">Count : </label>
+                    <t t-esc="state.internal_external_social_metrics.external_links_count"/>
+                    <br/>
+                    <div>
+						<t t-if="state.internal_external_social_metrics.external_links">
+							<t t-foreach="state.internal_external_social_metrics.external_links" t-as="external_link"
+                               t-key="external_link_index">
+								<span style="margin-right:5px;">•</span>
+                                <t t-esc="external_link"/>
+                                <br/>
+							</t>
+						</t>
+                        <t t-else="">
+							<div style="margin-top: 10px; color: #666; font-style: italic;">
+                        		No external links found
+                    		</div>
+						</t>
+					</div>
+				</div>
+                <!-- Social media links section -->
+                <div style="align-items: center; padding: 20px; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 25%; background-color: #fff; height: 300px; overflow-y: auto;">
+					<div>
+						<label style="font-size: 1.5em; font-weight: bold; color: #333;margin-bottom: 10px;">Social media links</label>
+					</div>
+                    <div>
+						<t t-if="state.internal_external_social_metrics.social_media_links" style="margin-top: 10px;">
+							<t t-foreach="Object.entries(state.internal_external_social_metrics.social_media_links)"
+                               t-as="links"
+                               t-key="links[0]">
+								<div style="margin-bottom: 15px;">
+									<label style="font-size: 1em; font-weight: bold; color: #333; display: block; margin-bottom: 5px;">
+										<t t-esc="links[0]"/>
+                                        :
+
+									</label>
+                                    <t t-if="Array.isArray(links[1])">
+										<div t-foreach="links[1]" t-as="link" t-key="link" style="margin-left: 15px;">
+											<span style="margin-right: 8px;">•</span>
+                                            <span t-esc="link"/>
+										</div>
+									</t>
+                                    <t t-else="">
+										<div style="margin-left: 15px;">
+											<span style="margin-right: 8px;">•</span>
+                                            <span t-esc="links[1]"/>
+										</div>
+									</t>
+								</div>
+							</t>
+						</t>
+                        <t t-else="">
+							<div style="margin-top: 10px; color: #666; font-style: italic;">
+                       	 		No social media links found
+                    		</div>
+						</t>
+					</div>
+				</div>
+			</t>
+		</div>
+        <div style="margin-left: 50px; margin-top: 50px; display: flex; gap: 20px; width:100%;margin-right: 50px;">
+			<t t-if="state.minification_metrics">
+				<!--				css files-->
+               <div style="align-items: center; padding: 20px; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 25%; background-color: #fff; height: 200px; overflow-y: auto;">
+					<label style="font-size: 1.5em; font-weight: bold; color: #333; margin-bottom: 10px;">CSS Files</label>
+					<t t-if="state.minification_metrics.css_files">
+						<ul style="padding-left: 20px;">
+							<t t-foreach="state.minification_metrics.css_files" t-as="css_file" t-key="css_file">
+								<li style="font-size: 1.1em; color: #333;">
+									<t t-esc="css_file"/>
+								</li>
+							</t>
+						</ul>
+						<t t-if="state.minification_metrics.is_css_minified == false">
+							<span class="text-danger">CSS File is not minified</span>
+						</t>
+						<t t-else="">
+							<span class="text-success">CSS File is minified</span>
+						</t>
+					</t>
+					<t t-else="">
+						No CSS files available.
+					</t>
+				</div>
+
+                <!--				js files-->
+                <div style="align-items: center; padding: 20px; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 25%; background-color: #fff; height: 200px; overflow-y: auto;">
+				<label style="font-size: 1.5em; font-weight: bold; color: #333; margin-bottom: 10px;">JS Files</label>
+								<t t-if="state.minification_metrics.js_files">
+					<ul style="padding-left: 20px;">
+						<t t-foreach="state.minification_metrics.js_files" t-as="js_file" t-key="js_file">
+							<li style="font-size: 1.1em; color: #333;">
+								<t t-esc="js_file"/>
+							</li>
+						</t>
+					</ul>
+					<t t-if="state.minification_metrics.is_js_minified == false">
+						<span class="text-danger">JS File is not minified</span>
+					</t>
+					<t t-else="">
+						<span class="text-success">JS File is minified</span>
+					</t>
+					</t>
+					<t t-else="">
+						No JS files available.
+					</t>
+				</div>
+
+                <!--				html minified-->
+                <div style="align-items: center; padding: 20px; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 25%; background-color: #fff;height:200px;overflow-y:auto;">
+					<label style="font-size: 1.5em; font-weight: bold; color: #333;margin-bottom: 10px;">HTML Page</label>
+                    <br/>
+                    <t t-if="state.minification_metrics.is_html_minified == false">
+						<span class="text-danger">HTML is not minified</span>
+					</t>
+                    <t t-else="">
+						<span class="text-success">HTML is minified</span>
+					</t>
+				</div>
+			</t>
+            <!--            robots.txt-->
+            <t t-if="state.robots_txt_metrics">
+				<div style="align-items: center; padding: 20px; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 25%; background-color: #fff;height:200px;overflow-y:auto;">
+					<label style="font-size: 1.5em; font-weight: bold; color: #333;margin-bottom: 10px;">robots.txt</label>
+                    <br/>
+                    <t t-if="state.robots_txt_metrics.robots_txt_status_code == 200">
+						<t t-esc="state.robots_txt_metrics.robots_txt"/>
+                        <br/>
+                        <span class="text-success">Your website appears to have a robot.txt file</span>
+					</t>
+                    <t t-else="">
+						<span class="text-danger">Your website does not appear to have a robot.txt file</span>
+					</t>
+				</div>
+			</t>
+		</div>
+        <div style="margin-left: 50px; margin-top: 50px; display: flex; gap: 20px; width:100%; margin-right: 50px;">
+			<!--				sitemap.xml-->
+            <t t-if="state.robots_txt_metrics">
+				<div style="align-items: center; padding: 20px; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 25%; background-color: #fff;height:300px;overflow-y:auto;">
+					<label style="font-size: 1.5em; font-weight: bold; color: #333;margin-bottom: 10px;">sitemap.xml</label>
+                    <br/>
+                    <t t-if="state.robots_txt_metrics.sitemap_xml_status_code == 200">
+						<t t-esc="state.robots_txt_metrics.sitemap_xml"/>
+                        <br/>
+                        <span class="text-success">Your website appears to have a sitemap.xml file</span>
+					</t>
+                    <t t-else="">
+						<span class="text-danger">Your website does not appear to have a sitemap.xml file</span>
+					</t>
+				</div>
+			</t>
+            <!--				search option-->
+            <t t-if="state.search_option_metrics">
+				<div style="align-items: center; padding: 20px; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 25%; background-color: #fff;height:300px;overflow-y:auto;">
+					<label style="font-size: 1.5em; font-weight: bold; color: #333;margin-bottom: 10px;">Search Option</label>
+                    <br/>
+                    <t t-if="state.search_option_metrics.search_option">
+						<span class="text-success">Search option found on the website.</span>
+					</t>
+                    <t t-else="">
+						<span class="text-danger">Search option not found on the website.</span>
+					</t>
+				</div>
+			</t>
+            <!--				Images-->
+            <t t-if="state.img_optimization_metrics">
+				<div style="align-items: center; padding: 20px; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 25%; background-color: #fff;height:300px;overflow-y:auto;">
+					<label style="font-size: 1.5em; font-weight: bold; color: #333;margin-bottom: 10px;">Images</label>
+                    <br/>
+                    <t t-if="state.img_optimization_metrics.images == 0">
+                        No images found
+                    </t>
+                    <t t-else="">
+                        Total Images :
+						<t t-esc="state.img_optimization_metrics.images"/>
+                        <br/>
+                        <label style="font-size: 1em; font-weight: bold;">Optimised</label>
+                        <br/>
+                        count :
+                        <t t-esc="state.img_optimization_metrics.optimised_images_count"/>
+                        <br/>
+                        <t t-if="state.img_optimization_metrics.optimised_images">
+							<t t-esc="state.img_optimization_metrics.optimised_images"/>
+                            <br/>
+						</t>
+                        <label style="font-size: 1em; font-weight: bold;">Not Optimised</label>
+                        <br/>
+                        count :
+                        <t t-esc="state.img_optimization_metrics.not_optimised_images_count"/>
+                        <br/>
+                        <t t-if="state.img_optimization_metrics.not_optimised_images">
+							<t t-esc="state.img_optimization_metrics.not_optimised_images"/></t>
+                        <br/>
+                        <t t-if="state.img_optimization_metrics.not_optimised_images">
+							<span class="text-danger">Images on the website is not optimised</span>
+						</t>
+                        <t t-else="">
+							<span class="text-success">Images on the website is optimised</span>
+						</t>
+					</t>
+				</div>
+			</t>
+
+            <!--            seo friendly urls-->
+            <t t-if="state.url_seo_metrics">
+				<div style="align-items: center; padding: 20px; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 25%; background-color: #fff; height: 300px; overflow-y: auto;">
+					<label style="font-size: 1.5em; font-weight: bold; color: #333; margin-bottom: 10px;">SEO friendly URL</label>
+					<t t-if="state.url_seo_metrics.seo_friendly_url">
+						<span class="text-success">Your website URL is SEO friendly.</span>
+					</t>
+					<t t-else="">
+						<t t-if="state.url_seo_metrics.seo_url_issues">
+							<ul style="padding-left: 20px;">
+								<t t-foreach="state.url_seo_metrics.seo_url_issues" t-as="issue" t-key="issues">
+									<li style="font-size: 1.1em; color: #333;">
+										<t t-esc="issue"/>
+									</li>
+								</t>
+							</ul>
+						</t>
+						<br/>
+						<span class="text-danger">Your website URL is not SEO friendly.</span>
+					</t>
+				</div>
+			</t>
+		</div>
+        <style>html .o_web_client > .o_action_manager {overflow:scroll;}</style>
+	</t>
+</templates>

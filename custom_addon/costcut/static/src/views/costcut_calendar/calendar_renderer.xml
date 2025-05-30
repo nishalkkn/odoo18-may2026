@@ -1,0 +1,71 @@
+<templates xml:space="preserve">
+    <t t-name="costcut.CostcutCalendarRenderer">
+        <div style="position: relative;overflow-x: auto; min-width: 89%;">
+            <div id="scheduler-container"/>
+<!--            <script>-->
+
+<!--    </script>-->
+                        <div class="table-responsive" style="overflow-x:auto; width:100%;height: 82vh;">
+                            <table class="table table-bordered text-center align-middle calendar-table" t-ref="calendar-table">
+                                <!-- Table Header -->
+                                <thead class="table-light" style="position: sticky; top: 0; z-index: 14;">
+                                    <tr>
+                                        <th class="col-2"
+                                            style="position: sticky; left: 0; background: #f8f9fa; z-index: 11; padding: 0rem 0rem;">
+                                            <div class="d-flex flex-column align-items-center"
+                                                 style="padding: 0.75rem 0.75rem; border-bottom: 1px solid #d8dadd">
+                                            Time Slots
+                                            </div>
+                                        </th>
+                                        <t t-if="props.employees.length > 0">
+                                            <t t-foreach="props.employees" t-as="employee" t-key="employee['id']">
+                                                <th t-if="employee.isChecked" class="col" style="padding: 0rem 0rem;">
+                                                    <div class="d-flex flex-column align-items-center"
+                                                         style="padding: 0.75rem 0.75rem; border-bottom: 1px solid #d8dadd">
+                                                        <img t-if="employee['image_1920']"
+                                                             t-att-src="'/web/image/hr.employee/' + employee['id'] + '/avatar_128'"
+                                                             style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid #ffffff;"/>
+                                                        <img t-if="!employee['image_1920']"
+                                                             src="/web/static/img/placeholder.png"
+                                                             style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid #ffffff;"/>
+                                                        <span class="mt-2"
+                                                              style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                                            <t t-esc="employee['name']"/>
+                                                        </span>
+                                                    </div>
+                                                </th>
+                                            </t>
+                                        </t>
+                                    </tr>
+                                </thead>
+                                <!-- Table Body -->
+                                <tbody>
+                                    <t t-if="props.employees.length > 0">
+                                        <t t-foreach="this.state.timeslots" t-as="slot" t-key="slot['start'] + '_' + slot['end']">
+                                            <tr>
+                                                <td class="py-3 time-slot">
+                                                    <t t-esc="slot['start']"/>
+                                                </td>
+                                                <t t-foreach="props.employees" t-as="groupedEmployee" t-key="groupedEmployee.id">
+                                                    <t t-if="groupedEmployee.isChecked">
+                                                        <t t-set="_value" t-value="this.getScheduledTime(groupedEmployee.id, slot.start, props.groupedEmployeeRecord)"/>
+                                                        <td t-att-class="_value ? 'scheduled py-3': 'py-3'" t-att-data-employee="groupedEmployee.id">
+                                                            <div class="appointment-slot">
+                                                            </div>
+                                                        </td>
+                                                    </t>
+                                                </t>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                    <t t-else="">
+                                        <tr>
+                                            <td colspan="100%" class="py-3 text-muted">No employees available.</td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+        </div>
+    </t>
+</templates>

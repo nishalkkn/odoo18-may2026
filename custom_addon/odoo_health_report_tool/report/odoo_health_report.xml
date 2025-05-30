@@ -1,0 +1,1340 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="odoo_health_report">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+
+                <t t-if="website">
+                    <h1>
+                        <u>Website</u>
+                    </h1>
+                    <t t-set="seo_details" t-value="website['seo_details']()"/>
+                    <t t-set="performance_details" t-value="website['performance_details']()"/>
+                    <t t-set="security_headers" t-value="website['security_headers']()"/>
+                    <t t-set="csp" t-value="website['csp']()"/>
+                    <t t-set="internal_external_links" t-value="website['internal_external_links']()"/>
+                    <t t-set="css_js_html_files" t-value="website['css_js_html_files']()"/>
+                    <t t-set="robots_txt_sitemap_xml" t-value="website['robots_txt_sitemap_xml']()"/>
+                    <t t-set="search_option" t-value="website['search_option']()"/>
+                    <t t-set="image_optimization" t-value="website['image_optimization']()"/>
+                    <t t-set="seo_friendly_url" t-value="website['seo_friendly_url']()"/>
+                    <!--                    title, meta description and keywords-->
+                    <t t-if="seo_details">
+                        <div style="display: flex; flex-wrap: wrap; gap: 16px; margin-bottom:20px;">
+                            <!-- Title Metrics Tile -->
+                            <div style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; flex: 1 1 300px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);margin:10px;">
+                                <div style="font-weight: 600; color: #374151; margin-bottom: 12px;">Title</div>
+                                <div style="color: #4b5563; margin-bottom: 8px;"
+                                     t-esc="seo_details['title']"/>
+                                <div t-if="seo_details['title']">
+                                    <div style="font-size: 14px; color: #4b5563;">
+                                        Length:
+                                        <span t-esc="len(seo_details['title'])"/>
+                                    </div>
+                                    <div t-if="len(seo_details['title']) &gt; 50 and len(seo_details['title']) &lt; 60"
+                                         style="color: #10b981; font-size: 14px;">
+                                        ✓ Optimal length
+                                    </div>
+                                    <div t-elif="(len(seo_details['title']) &gt; 30 and len(seo_details['title']) &lt; 50) or
+                                        (len(seo_details['title']) &gt; 60 and len(seo_details['title']) &lt; 70)"
+                                         style="color: #f59e0b; font-size: 14px;">
+                                        ⚠ Needs improvement. Keep the website title length between 50 and 60 characters
+                                        for
+                                        good SEO performance
+                                    </div>
+                                    <div t-else="" style="color: #ef4444; font-size: 14px;">
+                                        ⚠ Poor length. Keep the website title length between 50 and 60 characters for
+                                        good
+                                        SEO performance
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Meta Description Tile -->
+                            <div style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; flex: 1 1 300px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);margin:10px;">
+                                <div style="font-weight: 600; color: #374151; margin-bottom: 12px;">Meta Description
+                                </div>
+                                <div style="color: #4b5563; margin-bottom: 8px;"
+                                     t-esc="seo_details['meta_description']"/>
+                                <div t-if="seo_details['meta_description']">
+                                    <div style="font-size: 14px; color: #4b5563;">
+                                        Length:
+                                        <span t-esc="len(seo_details['meta_description'])"/>
+                                    </div>
+                                    <div t-if="len(seo_details['meta_description']) &gt; 150 and len(seo_details['meta_description']) &lt; 160"
+                                         style="color: #10b981; font-size: 14px;">
+                                        ✓ Optimal length
+                                    </div>
+                                    <div t-elif="(len(seo_details['meta_description']) &gt;=70 and len(seo_details['meta_description']) &lt; 150) or
+                                        (len(seo_details['meta_description']) &gt;=160 and len(seo_details['meta_description']) &lt; 180)"
+                                         style="color: #f59e0b; font-size: 14px;">
+                                        ⚠ Needs improvement. Keep the website meta description length between 150 and
+                                        160
+                                        characters for good SEO performance
+                                    </div>
+                                    <div t-else="" style="color: #ef4444; font-size: 14px;">
+                                        ⚠ Poor length. Keep the website meta description length between 150 and 160
+                                        characters for good SEO performance
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Keywords Tile -->
+                            <div style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; flex: 1 1 300px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);margin:10px;">
+                                <div style="font-weight: 600; color: #374151; margin-bottom: 12px;">Keywords</div>
+                                <div style="color: #4b5563;" t-esc="seo_details['keywords']"/>
+                            </div>
+                        </div>
+                    </t>
+                    <!--                    status code, page size and status-->
+                    <t t-if="performance_details">
+                        <div style="display: flex; flex-wrap: wrap; gap: 16px;margin-bottom:20px;">
+                            <!-- Status Code Tile -->
+                            <div style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; flex: 1 1 300px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);margin:10px;">
+                                <div class="metric-value">
+                                    <span style="font-size: 30px; font-weight: bold; color: #1f2937;"
+                                          t-esc="performance_details['status_code']"/>
+                                </div>
+                                <div class="metric-label" style="font-size: 14px; color: #6b7280; margin-top: 8px;">
+                                    Status Code
+                                </div>
+                            </div>
+                            <!-- Page Size Tile -->
+                            <div style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; flex: 1 1 300px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);margin:10px;">
+                                <div class="metric-value">
+                                    <span style="font-size: 30px; font-weight: bold; color: #1f2937;"
+                                          t-esc="performance_details['page_size']"/>
+                                    <span style="font-size: 20px; font-weight: 600; color: #4b5563;">KB</span>
+                                </div>
+                                <div class="metric-label" style="font-size: 14px; color: #6b7280; margin-top: 8px;">
+                                    Page Size
+                                </div>
+                                <div t-if="performance_details['page_size'] &lt; 800"
+                                     style="color: #10b981; font-size: 14px; margin-top: 8px;">
+                                    ✓ Optimal
+                                </div>
+                                <div t-elif="performance_details['page_size'] &gt;= 800 and performance_details['page_size'] &lt;= 1024"
+                                     style="color: #f59e0b; font-size: 14px; margin-top: 8px;">
+                                    ⚠ Needs Improvement (Reduce below 800KB)
+                                </div>
+                                <div t-else="" style="color: #ef4444; font-size: 14px; margin-top: 8px;">
+                                    ✗ Poor (Significantly reduce size below 800KB)
+                                </div>
+                            </div>
+                            <!-- Status Tile -->
+                            <div style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; flex: 1 1 300px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);margin:10px;">
+                                <div class=" metric-value">
+                                    <span style="font-size: 30px; font-weight: bold; color: #1f2937;"
+                                          t-esc="performance_details['status']"/>
+                                </div>
+                                <div class="metric-label" style="font-size: 14px; color: #6b7280; margin-top: 8px;">
+                                    Status
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                    <!--                    csp components-->
+                    <t t-if="csp">
+                        <div style="background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; flex: 1 1 300px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);margin:10px;margin-bottom:20px;">
+                            <h2 style="font-size: 20px; font-weight: bold; color: #1f2937; margin-bottom: 16px;">Content
+                                Security Policy
+                            </h2>
+                            <div style="display: flex; flex-wrap: wrap; gap: 20px;" t-if="csp['csp']">
+                                <t t-foreach="csp['csp'].items()" t-as="entry">
+                                    <div style="flex: 1 1 calc(50% - 10px); display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                                        <span style="font-weight: 600; color: #374151;" t-esc="entry[0]"/>:
+                                        <span t-if="entry[1] == 'Not Present'" style="color: #ef4444;margin-left:10px;">
+                                            ✗
+                                            Not Present
+                                        </span>
+                                        <span t-else="" style="color: #10b981;margin-left:10px;">✓ Present</span>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+                    <!--                    security headers-->
+                    <t t-if="security_headers">
+                        <div style="page-break-inside: avoid;background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; flex: 1 1 300px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);margin:10px;margin-bottom:20px;">
+                            <h2 style="font-size: 20px; font-weight: bold; color: #1f2937; margin-bottom: 16px;">
+                                Security Headers
+                            </h2>
+                            <div style="display: flex; flex-wrap: wrap; gap: 20px;"
+                                 t-if="security_headers['security_headers']">
+                                <t t-foreach="security_headers['security_headers'].items()" t-as="entry">
+                                    <div style="flex: 1 1 calc(50% - 10px); display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
+                                        <span style="font-weight: 600; color: #374151;" t-esc="entry[0]"/>:
+                                        <span t-if="entry[1] == 'Not Set'" style="color: #ef4444;margin-left:10px;">✗
+                                            Not
+                                            Present
+                                        </span>
+                                        <span t-else="" style="color: #10b981;margin-left:10px;">
+                                            <t t-esc="entry[1]"/>
+                                        </span>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+                    <!--                    internal links-->
+                    <t t-if="internal_external_links">
+                        <div style="page-break-inside: avoid;background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; flex: 1 1 300px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);margin:10px;margin-bottom:20px;">
+                            <h2 style="font-size: 20px; font-weight: bold; color: #1f2937; margin-bottom: 16px;">
+                                Internal links
+                            </h2>
+                            <label style="font-size: 1em; font-weight: bold; color: #333;margin-bottom: 10px; padding-right:10px">
+                                Count :
+                            </label>
+                            <t t-esc="internal_external_links['internal_links_count']"/>
+                            <br/>
+                            <div>
+                                <t t-if="internal_external_links['internal_links']">
+                                    <t t-foreach="internal_external_links['internal_links']"
+                                       t-as="internal_link">
+                                        •
+                                        <t t-esc="internal_link"/>
+                                        <br/>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <div style="margin-top: 10px; color: #666; font-style: italic;">
+                                        No internal links found
+                                    </div>
+                                </t>
+                            </div>
+                            <t t-if="internal_external_links['internal_links_count'] and performance_details['page_size']">
+                                <t t-if="internal_external_links['internal_links_count'] &lt; internal_external_links['internal_links_count'] &gt; performance_details['page_size']/2">
+                                    <span style="color: green;">Internal links count is optimum</span>
+                                </t>
+                                <t t-elif="(internal_external_links['internal_links_count'] &lt; performance_details['page_size']/2 and internal_external_links['internal_links_count'] &gt; performance_details['page_size']/4) or (internal_external_links['internal_links_count'] &gt; performance_details['page_size'] and internal_external_links['internal_links_count'] &lt; performance_details['page_size']*1.5)">
+                                    <span style="color: orange;">Internal links count needs improvement.</span>
+                                    <br/>
+                                    Keep the internal link count between
+
+                                    <t t-esc="int(performance_details['page_size']/2)"/>
+                                    and
+
+                                    <t t-esc="int(performance_details['page_size'])"/>
+                                    for good SEO practice with respect to your page size.
+                                </t>
+                                <t t-else="">
+                                    <span style="color: red;">Internal links count is poor.</span>
+                                    <br/>
+                                    Keep the internal link count between
+
+                                    <t t-esc="int(performance_details['page_size']/2)"/>
+                                    and
+
+                                    <t t-esc="int(performance_details['page_size'])"/>
+                                    for good SEO practice with respect to your page size.
+                                </t>
+                            </t>
+                        </div>
+                        <!--                        external links-->
+                        <div style="page-break-inside: avoid;background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; flex: 1 1 300px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);margin:10px;margin-bottom:20px;">
+                            <h2 style="font-size: 20px; font-weight: bold; color: #1f2937; margin-bottom: 16px;">
+                                External links
+                            </h2>
+                            <label style="font-size: 1em; font-weight: bold; color: #333;margin-bottom: 10px; padding-right:10px">
+                                Count :
+                            </label>
+                            <t t-esc="internal_external_links['external_links_count']"/>
+                            <br/>
+                            <div>
+                                <t t-if="internal_external_links['external_links']">
+                                    <t t-foreach="internal_external_links['external_links']"
+                                       t-as="external_link">
+                                        •
+                                        <t t-esc="external_link"/>
+                                        <br/>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <div style="margin-top: 10px; color: #666; font-style: italic;">
+                                        No external links found
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                        <!--                        social media links-->
+                        <div style="page-break-inside: avoid;background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; flex: 1 1 300px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);margin:10px;margin-bottom:20px;">
+                            <h2 style="font-size: 20px; font-weight: bold; color: #1f2937; margin-bottom: 16px;">
+                                Social media links
+                            </h2>
+                            <div>
+                                <t t-if="internal_external_links['social_media_links']">
+                                    <div style="margin-top: 10px;">
+                                        <t t-foreach="internal_external_links['social_media_links'].items()"
+                                           t-as="links">
+                                            <div style="margin-bottom: 15px;">
+                                                <label style="font-size: 1em; font-weight: bold; color: #333; display: block; margin-bottom: 5px;">
+                                                    <t t-esc="links[0]"/>:
+                                                </label>
+                                                <t t-set="social_links" t-value="links[1]"/>
+                                                <t t-if="social_links and isinstance(social_links, list)">
+                                                    <div t-foreach="social_links" t-as="link" t-key="link"
+                                                         style="margin-left: 15px;">
+                                                        <span style="margin-right: 8px;">•</span>
+                                                        <span t-esc="link"/>
+                                                    </div>
+                                                </t>
+                                                <t t-else="">
+                                                    <div style="margin-left: 15px;">
+                                                        <span style="margin-right: 8px;">•</span>
+                                                        <span t-esc="social_links"/>
+                                                    </div>
+                                                </t>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <div style="margin-top: 10px; color: #666; font-style: italic;">
+                                        No social media links found
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+                    <!--                    css files-->
+                    <t t-if="css_js_html_files">
+                        <div style="page-break-inside: avoid;background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; flex: 1 1 300px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);margin:10px;margin-bottom:20px;">
+                            <h2 style="font-size: 20px; font-weight: bold; color: #1f2937; margin-bottom: 16px;">
+                                CSS Files
+                            </h2>
+                            <t t-if="css_js_html_files['css_files']">
+                                <t t-foreach="css_js_html_files['css_files']"
+                                   t-as="css_file">
+                                    •
+                                    <t t-esc="css_file"/>
+                                    <br/>
+                                </t>
+                                <t t-if="css_js_html_files['is_css_minified']">
+                                    <span class="text-success">CSS Files are minified</span>
+                                </t>
+                                <t t-else="">
+                                    <span class="text-danger">CSS Files are not minified</span>
+                                </t>
+                            </t>
+                            <t t-else="">
+                                No CSS files
+                            </t>
+                        </div>
+                        <!--                        JS files-->
+                        <div style="page-break-inside: avoid;background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; flex: 1 1 300px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);margin:10px;margin-bottom:20px;">
+                            <h2 style="font-size: 20px; font-weight: bold; color: #1f2937; margin-bottom: 16px;">
+                                JS Files
+                            </h2>
+                            <t t-if="css_js_html_files['js_files']">
+                                <t t-foreach="css_js_html_files['js_files']"
+                                   t-as="js_file">
+                                    •
+                                    <t t-esc="js_file"/>
+                                    <br/>
+                                </t>
+                                <t t-if="css_js_html_files['is_js_minified']">
+                                    <span class="text-success">JS Files are minified</span>
+                                </t>
+                                <t t-else="">
+                                    <span class="text-danger">JS Files are not minified</span>
+                                </t>
+                            </t>
+                            <t t-else="">
+                                No JS files
+                            </t>
+                        </div>
+                        <!--                        HTML file-->
+                        <div style="page-break-inside: avoid;background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; flex: 1 1 300px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);margin:10px;margin-bottom:20px;">
+                            <h2 style="font-size: 20px; font-weight: bold; color: #1f2937; margin-bottom: 16px;">
+                                HTML File
+                            </h2>
+                            <t t-if="css_js_html_files['is_html_minified']">
+                                <span class="text-success">HTML File is minified</span>
+                            </t>
+                            <t t-else="">
+                                <span class="text-danger">HTML File is not minified</span>
+                            </t>
+                        </div>
+                    </t>
+                    <t t-if="robots_txt_sitemap_xml">
+                        <!--                        robots.txt-->
+                        <div style="page-break-inside: avoid;background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; flex: 1 1 300px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);margin:10px;margin-bottom:20px;">
+                            <h2 style="font-size: 20px; font-weight: bold; color: #1f2937; margin-bottom: 16px;">
+                                robots.txt
+                            </h2>
+                            <t t-if="robots_txt_sitemap_xml['robots_txt_status_code'] == 200">
+                                <t t-esc="robots_txt_sitemap_xml['robots_txt']"/>
+                                <br/>
+                                <span class="text-success">Your website appears to have a robot.txt file</span>
+                            </t>
+                            <t t-else="">
+                                <span class="text-danger">Your website does not appear to have a robot.txt file</span>
+                            </t>
+                        </div>
+                        <!--                        sitemap.xml-->
+                        <div style="page-break-inside: avoid;background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; flex: 1 1 300px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);margin:10px;margin-bottom:20px;">
+                            <h2 style="font-size: 20px; font-weight: bold; color: #1f2937; margin-bottom: 16px;">
+                                sitemap.xml
+                            </h2>
+                            <t t-if="robots_txt_sitemap_xml['sitemap_xml_status_code'] == 200">
+                                <t t-esc="robots_txt_sitemap_xml['sitemap_xml']"/>
+                                <br/>
+                                <span class="text-success">Your website appears to have a sitemap.xml file</span>
+                            </t>
+                            <t t-else="">
+                                <span class="text-danger">Your website does not appear to have a sitemap.xml file</span>
+                            </t>
+                        </div>
+                    </t>
+                    <t t-if="search_option">
+                        <!--                        Search option-->
+                        <div style="page-break-inside: avoid;background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; flex: 1 1 300px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);margin:10px;margin-bottom:20px;">
+                            <h2 style="font-size: 20px; font-weight: bold; color: #1f2937; margin-bottom: 16px;">
+                                Search option
+                            </h2>
+                            <t t-if="search_option['search_option']">
+                                <span class="text-success">Search option found on the website.</span>
+                            </t>
+                            <t t-else="">
+                                <span class="text-danger">Search option not found on the website.</span>
+                            </t>
+                        </div>
+                    </t>
+                    <t t-if="image_optimization">
+                        <div style="page-break-inside: avoid;background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; flex: 1 1 300px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);margin:10px;margin-bottom:20px;">
+                            <h2 style="font-size: 20px; font-weight: bold; color: #1f2937; margin-bottom: 16px;">
+                                Images
+                            </h2>
+                            <t t-if="image_optimization['images'] == 0">
+                                No images found
+                            </t>
+                            <t t-else="">
+                                Total Images :
+                                <t t-esc="image_optimization['images']"/>
+                                <br/>
+                                <label style="font-size: 1em; font-weight: bold;">Optimised</label>
+                                <br/>
+                                count :
+                                <t t-esc="image_optimization['optimised_images_count']"/>
+                                <br/>
+                                <t t-if="image_optimization['optimised_images']">
+                                    <t t-foreach="image_optimization['optimised_images']"
+                                       t-as="optimised_image">
+                                        •
+                                        <t t-esc="optimised_image"/>
+                                        <br/>
+                                    </t>
+                                    <br/>
+                                </t>
+                                <label style="font-size: 1em; font-weight: bold;">Not Optimised</label>
+                                <br/>
+                                count :
+                                <t t-esc="image_optimization['not_optimised_images_count']"/>
+                                <br/>
+                                <t t-if="image_optimization['not_optimised_images']">
+                                    <t t-foreach="image_optimization['not_optimised_images']"
+                                       t-as="not_optimised_image">
+                                        •
+                                        <t t-esc="not_optimised_image"/>
+                                        <br/>
+                                    </t>
+                                    <span class="text-danger">Images on the website is not optimised</span>
+                                </t>
+                                <t t-else="">
+                                    <span class="text-success">Images on the website is optimised</span>
+                                </t>
+                            </t>
+                        </div>
+                    </t>
+                    <t t-if="seo_friendly_url">
+                        <div style="page-break-inside: avoid;background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; flex: 1 1 300px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);margin:10px;margin-bottom:20px;">
+                            <h2 style="font-size: 20px; font-weight: bold; color: #1f2937; margin-bottom: 16px;">
+                                URL Details
+                            </h2>
+                            <t t-if="seo_friendly_url['is_seo_friendly_url']">
+                                <span class="text-success">Your website url is SEO friendly.</span>
+                            </t>
+                            <t t-else="">
+                                <t t-if="seo_friendly_url['seo_url_issues']">
+                                    <t t-foreach="seo_friendly_url['seo_url_issues']" t-as="issue">
+                                        •
+                                        <span t-esc="issue"/>
+                                        <br/>
+                                    </t>
+                                </t>
+                                <br/>
+                                <span class="text-danger">Your website url is not SEO friendly.</span>
+                            </t>
+                        </div>
+                    </t>
+                </t>
+
+                <br/>
+<!--                server report-->
+                <t t-if="server">
+                    <div style="page-break-before: always;">
+                        <h1>
+                            <u>Server</u>
+                        </h1>
+
+                        <t t-set="metrics" t-value="server['server_metrics']()"/>
+                        <t t-set="db_metrics" t-value="server['database_metrics']()"/>
+                        <t t-set="file" t-value="server['file_health']()"/>
+                        <t t-set="connection" t-value="server['connections']()"/>
+                        <t t-set="up_time" t-value="server['up_time']()"/>
+
+                        <t t-if="server.get('server_metrics')">
+                            <div style="page-break-inside: avoid;">
+                                <!-- CPU Utilization -->
+                                <h3>CPU Utilization</h3>
+                                <!-- CPU Count -->
+
+                                <div style="margin-left: 50px; font-weight: bold; margin-top: 50px; display: flex; gap: 20px;">
+                                    <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                        <div id="templates">
+                                            <div style="font-size: 1em; color: #555;">Cpu count</div>
+                                            <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                            CPU Count:
+                                            <span t-esc="metrics['cpu_count']"/>
+                                        </div>
+
+                                        <t t-if="metrics['current_workers'] &gt; metrics['allowed_workers']">
+                                            <div style="color: red; font-weight: bold;">Bad CPU count</div>
+                                            <div style="color: #555;">Your CPU count is bad minimum need
+                                                <t t-esc="metrics['min_cpu_count']"/>
+                                            </div>
+                                        </t>
+                                        <t t-else="metrics['current_workers'] &lt;= metrics['allowed_workers']">
+                                            <div style="color: green; font-weight: bold;">Metrics Value: Good</div>
+                                            <div style="color: #555;">Your CPU count is sufficient for optimal
+                                                performance
+                                            </div>
+                                        </t>
+                                    </div>
+
+                                    <!-- current workers and allowed workers -->
+                                    <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                        <div id="templates">
+                                            <div style="font-size: 1em; color: #555;">currentWorkers</div>
+                                            <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                            <t t-esc="metrics['current_workers']"/>
+                                        </div>
+                                        <div style="font-size: 1em; color: #555;">Allowed Workers</div>
+                                        <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                        <t t-esc="metrics['allowed_workers']"/>
+                                    </div>
+
+                                    <!-- CPU user time -->
+                                    <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                        <div id="templates">
+                                            <div style="font-size: 1em; color: #555;">User Time</div>
+                                            <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                            <t t-esc="metrics['cpu_user_times']"/>%
+                                        </div>
+                                        <t t-if="metrics['cpu_user_times'] &gt; 70">
+                                            <div style="color: red; font-weight: bold;">Warning: High CPU User Time
+                                            </div>
+                                            <div style="color: #555;">User time is high. Consider reducing unnecessary
+                                                processes
+                                                or
+                                                optimizing workloads.
+                                            </div>
+                                        </t>
+
+                                        <t t-elif="metrics['cpu_user_times'] &gt;= 50 and metrics['cpu_user_times'] &lt;= 70">
+                                            <div style="color: orange;">Acceptable</div>
+                                        </t>
+                                        <t t-elif="metrics['cpu_user_times'] &lt;50">
+                                            <div style="color: green; font-weight: bold;">Healthy</div>
+                                            <div style="color: #555;">User time is within an acceptable range.</div>
+                                        </t>
+                                    </div>
+
+                                    <!-- CPU system time -->
+                                    <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                                        width: 200px; text-align: center;">
+                                        <div id="templates">
+                                            <div style="font-size: 1em; color: #555;">Cpu system times</div>
+                                            <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                            <t t-esc="metrics['cpu_system_times']"/>
+                                        </div>
+
+                                        <div>
+                                            <t t-if="metrics['cpu_system_times'] &lt; 30">
+                                                <div style="color: green; font-weight: bold;">Excellent: Your system is
+                                                    running
+                                                    optimally
+                                                </div>
+                                            </t>
+                                            <t t-if="metrics['cpu_system_times'] &gt;= 30 and metrics['cpu_system_times'] &lt; 50">
+                                                <div style="color: orange; font-weight: bold;">Acceptable: Monitor the
+                                                    system
+                                                </div>
+                                            </t>
+                                            <t t-if="metrics['cpu_system_times'] &gt;= 50">
+                                                <div style="color: red; font-weight: bold;">Warning: High system time
+                                                    detected
+                                                </div>
+                                                <div style="color: #555;">Your system time is higher than 50%.</div>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div style="margin-left: 50px; font-weight: bold; margin-top: 50px; display: flex; gap: 20px;">
+                                    <!-- CPU idle time -->
+                                    <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                        <div id="templates">
+                                            <div style="font-size: 1em; color: #555;">Cpu idle times</div>
+                                            <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                            <t t-esc="metrics['cpu_idle_times']"/>
+                                        </div>
+                                        <div>
+                                            <t t-if="metrics['cpu_idle_times'] &gt;= 50">
+                                                <div style="color: green; font-weight: bold;">Good: Your CPU is not
+                                                    heavily
+                                                    taxed
+                                                </div>
+                                            </t>
+                                            <t t-if="metrics['cpu_idle_times'] &gt;= 30 and metrics['cpu_idle_times'] &lt; 50">
+                                                <div style="color: orange; font-weight: bold;">Acceptable</div>
+                                            </t>
+                                            <t t-if="metrics['cpu_idle_times'] &lt; 30">
+                                                <div style="color: red; font-weight: bold;">Bad: High CPU usage
+                                                    detected
+                                                </div>
+                                                <div style="color: #555;">Your CPU idle time is below 30%</div>
+                                                <ul style="color: #555;">
+                                                </ul>
+                                            </t>
+                                        </div>
+                                    </div>
+
+                                    <!-- CPU iowait time -->
+                                    <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                        <div id="templates">
+                                            <div style="font-size: 1em; color: #555;">I/O Wait time</div>
+                                            <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                            <t t-esc="metrics['cpu_iowait_times']"/>
+                                        </div>
+                                        <t t-if="metrics['cpu_iowait_times'] &lt; 10">
+                                            <div style="color: green;">Excellent IO performance</div>
+                                        </t>
+                                        <t t-elif="metrics['cpu_iowait_times'] &gt;= 10 and metrics['cpu_iowait_times'] &lt; 20">
+                                            <div style="color: orange;">Acceptable IO wait time, but monitor</div>
+                                        </t>
+                                        <t t-elif="metrics['cpu_iowait_times'] &gt;= 20">
+                                            <div style="color: red;">High IO wait time - investigate disk performance
+                                            </div>
+                                        </t>
+                                    </div>
+
+                                    <!-- CPU load averages -->
+                                    <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                        <div id="templates">
+                                            <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                            <div style="font-size: 1em; color: #555;">load avg per 1 min</div>
+                                            <t t-esc="metrics['load_avg_1_min']"/>
+                                            <br></br>
+                                            <div style="font-size: 1em; color: #555;">load avg per 5 min</div>
+                                            <t t-esc="metrics['load_avg_5_min']"/>
+                                            <br></br>
+                                            <div style="font-size: 1em; color: #555;">load avg 15 min</div>
+                                            <t t-esc="metrics['load_avg_15_min']"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h3>System memory</h3>
+
+                            <div style="page-break-inside: avoid;">
+                                <!--System Memory-->
+                                <div style="margin-left: 50px; font-weight: bold; margin-top: 50px; display: flex; gap: 20px;">
+                                    <!--Total Memory-->
+                                    <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                        <div id="total_memory">
+                                            <div style="font-size: 1em; color: #555;">Total memory (MB)</div>
+                                            <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                            <t t-esc="metrics['total_memory']"/>
+                                        </div>
+                                    </div>
+
+                                    <!--Used memory-->
+                                    <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                        <div id="used_memory">
+                                            <div style="font-size: 1em; color: #555;">Used memory (MB)</div>
+                                            <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                            <t t-esc="metrics['used_memory']"/>
+                                        </div>
+                                        <t t-if="metrics['used_memory'] &lt;= 0.8 * metrics['total_memory']">
+                                            <div style="color: green;">Good</div>
+                                        </t>
+                                        <t t-elif="metrics['used_memory'] &gt; 0.8 * metrics['total_memory'] and metrics['used_memory'] &lt;= 0.9 * metrics['total_memory']">
+                                            <div style="color: orange;">Acceptable</div>
+                                        </t>
+                                        <t t-else="metrics['used_memory'] &gt; 0.9 * metrics['total_memory']">
+                                            <div style="color: red;">Bad</div>
+                                        </t>
+                                    </div>
+
+                                    <!--Free memory-->
+                                    <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                        <div id="free_memory">
+                                            <div style="font-size: 1em; color: #555;">Free memory (MB)</div>
+                                            <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                            <t t-esc="metrics['free_memory']"/>
+                                        </div>
+                                        <t t-if="metrics['free_memory'] &gt;= 0.2 * metrics['total_memory']">
+                                            <div style="color: green;">Good</div>
+                                        </t>
+                                        <t t-elif="metrics['free_memory'] &gt; 0.1 * metrics['total_memory'] and metrics['free_memory'] &lt; 0.2 * metrics['total_memory']">
+                                            <div style="color: orange;">Acceptable</div>
+                                        </t>
+                                        <t t-else="metrics['free_memory'] &lt;= 0.1 * metrics['total_memory']">
+                                            <div style="color: red;">Bad</div>
+                                        </t>
+                                    </div>
+
+                                    <!--Shared memory-->
+                                    <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                        <div id="shared_memory">
+                                            <div style="font-size: 1em; color: #555;">Shared memory (MB)</div>
+                                            <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                            <t t-esc="metrics['shared_memory']"/>
+                                        </div>
+                                        <t t-if="metrics['shared_memory'] &lt;= 0.25 * metrics['total_memory']">
+                                            <div style="color: green;">Good</div>
+                                        </t>
+                                        <t t-elif="metrics['shared_memory'] &gt;= 0.25 * metrics['total_memory'] and metrics['shared_memory'] &lt;= 0.5 * metrics['total_memory']">
+                                            <div style="color: orange;">Acceptable</div>
+                                        </t>
+                                        <t t-else="metrics['shared_memory'] &gt; 0.5 * metrics['total_memory']">
+                                            <div style="color: red;">Bad</div>
+                                        </t>
+                                    </div>
+
+                                    <!--Cached memory-->
+                                    <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                        <div id="cached_memory">
+                                            <div style="font-size: 1em; color: #555;">Cached memory (MB)</div>
+                                            <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                            <t t-esc="metrics['cached_memory']"/>
+                                        </div>
+                                        <t t-if="metrics['cached_memory'] &lt; 0.5 * metrics['cached_memory']">
+                                            <div style="color: green;">Good</div>
+                                        </t>
+                                        <t t-elif="metrics['cached_memory'] &gt;= 0.5 * metrics['total_memory'] and metrics['cached_memory'] &lt;= 0.75 * metrics['total_memory']">
+                                            <div style="color: orange;">Acceptable</div>
+                                        </t>
+                                        <t t-else="metrics['cached_memory'] &gt; 0.75 * metrics['total_memory']">
+                                            <div style="color: red;">Bad</div>
+                                        </t>
+                                    </div>
+
+                                    <!--Buffered memory-->
+                                    <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                        <div id="buffered_memory">
+                                            <div style="font-size: 1em; color: #555;">Buffered memory (MB)</div>
+                                            <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                            <t t-esc="metrics['buffered_memory']"/>
+                                        </div>
+                                        <t t-if="metrics['buffered_memory'] &lt; 0.5 * metrics['total_memory']">
+                                            <div style="color: green;">Good</div>
+                                        </t>
+                                        <t t-elif="metrics['buffered_memory'] &gt;= 0.5 * metrics['total_memory'] and metrics['buffered_memory'] &lt;= 0.75 * metrics['total_memory']">
+                                            <div style="color: orange;">Acceptable</div>
+                                        </t>
+                                        <t t-else="metrics['buffered_memory'] &gt; 0.75 * metrics['total_memory']">
+                                            <div style="color: red;">Bad</div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <h3>Process memory</h3>
+
+                            <div style="margin-left: 50px; font-weight: bold; margin-top: 50px; display: flex; gap: 20px;">
+                                <!--        Resident memory-->
+                                <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                    <div id="memory_info_rss">
+                                        <div style="font-size: 1em; color: #555;">Resident memory(MB)</div>
+                                        <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                        <t t-esc="metrics['memory_info_rss']"/>
+                                    </div>
+                                    <t t-if="metrics['memory_info_rss'] &lt;= 0.25 * metrics['total_memory'] ">
+                                        <div style="color: green;">Good</div>
+                                    </t>
+                                    <t t-elif="metrics['memory_info_rss'] &gt; 0.5 * metrics['total_memory'] ">
+                                        <div style="color: red;">Bad</div>
+                                    </t>
+                                    <t t-else="">
+                                        <div style="color: orange;">Acceptable</div>
+                                    </t>
+                                </div>
+
+                                <!--            Virtual memory size-->
+                                <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                    <div id="memory_info_vms">
+                                        <div style="font-size: 1em; color: #555;">Virtual memory size(MB)</div>
+                                        <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                        <t t-esc="metrics['memory_info_vms']"/>
+                                    </div>
+                                    <t t-if="metrics['memory_info_vms'] &lt;= 3 * metrics['memory_info_rss'] ">
+                                        <div style="color: green;">Good</div>
+                                    </t>
+                                    <t t-elif="metrics['memory_info_vms'] &gt; 5 * metrics['memory_info_rss'] ">
+                                        <div style="color: red;">Bad</div>
+                                    </t>
+                                    <t t-else="">
+                                        <div style="color: orange;">Acceptable</div>
+                                    </t>
+                                </div>
+
+                                <!--            Shared memory<-->
+                                <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                    <div id="memory_info_shared">
+                                        <div style="font-size: 1em; color: #555;">Shared memory(MB)</div>
+                                        <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                        <t t-esc="metrics['memory_info_shared']"/>
+                                    </div>
+                                    <t t-if="metrics['memory_info_shared'] &lt;= 50 ">
+                                        <div style="color: green;">Good</div>
+                                    </t>
+                                    <t t-elif="metrics['memory_info_shared'] &gt; 200 ">
+                                        <div style="color: red;">Bad</div>
+                                    </t>
+                                    <t t-else="">
+                                        <div style="color: orange;">Acceptable</div>
+                                    </t>
+                                </div>
+
+                                <!--             Text memory-->
+                                <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                    <div id="memory_info_text">
+                                        <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                        <t t-esc="metrics['memory_info_text']"/>
+                                    </div>
+                                    <div style="font-size: 1em; color: #555;">Text memory(MB)</div>
+                                    <t t-if="metrics['memory_info_text'] &lt;= 10 ">
+                                        <div style="color: green;">Good</div>
+                                    </t>
+                                    <t t-elif="metrics['memory_info_text'] &gt; 50 ">
+                                        <div style="color: red;">Bad</div>
+                                    </t>
+                                    <t t-else="">
+                                        <div style="color: orange;">Acceptable</div>
+                                    </t>
+                                </div>
+
+                                <!--            Data memory-->
+                                <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                    <div id="memory_info_data">
+                                        <div style="font-size: 1em; color: #555;">Data memory(MB)</div>
+                                        <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                        <t t-esc="metrics['memory_info_data']"/>
+                                    </div>
+                                    <t t-if="metrics['memory_info_data'] &lt;= 200 ">
+                                        <div style="color: green;">Good</div>
+                                    </t>
+                                    <t t-elif="metrics['memory_info_data'] &gt; 500 ">
+                                        <div style="color: red;">Bad</div>
+                                    </t>
+                                    <t t-else="">
+                                        <div style="color: orange;">Acceptable</div>
+                                    </t>
+                                </div>
+                            </div>
+
+                            <h3>Disk performance</h3>
+
+                            <div style="page-break-inside: avoid;">
+                                <div style="margin-left: 50px; font-weight: bold; margin-top: 50px; display: flex; gap: 20px;">
+
+                                    <!-- Read Bytes -->
+                                    <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                        <div id="read_bytes">
+                                            <div style="font-size: 1em; color: #555;">Read Bytes</div>
+                                            <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                            <t t-esc="metrics['read_bytes']"/>
+                                        </div>
+                                    </div>
+
+                                    <!-- Write Bytes -->
+                                    <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                        <div id="write_bytes">
+                                            <div style="font-size: 1em; color: #555;">Write Bytes</div>
+                                            <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                            <t t-esc="metrics['write_bytes']"/>
+                                        </div>
+                                    </div>
+
+                                    <!-- Write Time -->
+                                    <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                        <div id="write_time">
+                                            <div style="font-size: 1em; color: #555;">Write Time</div>
+                                            <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                            <t t-esc="metrics['write_time']"/>
+                                        </div>
+                                    </div>
+
+                                    <!-- Total input output per sec -->
+                                    <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                        <div id="total_iops">
+                                            <div style="font-size: 1em; color: #555;">Total input Output PS</div>
+                                            <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                            <t t-esc="metrics['total_iops']"/>
+                                        </div>
+                                    </div>
+
+                                    <!-- Read Count -->
+                                    <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                        <div id="read_count">
+                                            <div style="font-size: 1em; color: #555;">Read Count</div>
+                                            <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                            <t t-esc="metrics['read_count']"/>
+                                        </div>
+                                    </div>
+
+                                    <!-- Write Count -->
+                                    <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                        <div id="write_count">
+                                            <div style="font-size: 1em; color: #555;">Write Count</div>
+                                            <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                            <t t-esc="metrics['write_count']"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </t>
+
+                        <div style="page-break-before: always;">
+                            <h3>Concurrent sessions</h3>
+                            <!--         active_sessions   -->
+                            <div style="margin-left: 50px; font-weight: bold; margin-top: 50px; display: flex; gap: 20px;">
+                                <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                    <span class="fa fa-info-circle"
+                                          title=" The current number of user sessions or database connections"/>
+                                    <div id="active_connection">
+                                        <div style="font-size: 1em; color: #555;">Active Connections</div>
+                                        <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                        <t t-esc="connection['active_sessions']"/>
+                                    </div>
+                                    <t t-if="connection['active_sessions'] &gt; connection['max_connections']">
+                                        <div style="color: red;">Bad</div>
+                                    </t>
+                                    <t t-elif="connection['active_sessions'] &lt;= connection['max_connections']">
+                                        <div style="color: green;">Good</div>
+                                    </t>
+                                </div>
+
+                                <!--            Max connections-->
+                                <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                    <span class="fa fa-info-circle"
+                                          title="The maximum number of simultaneous database connections"/>
+                                    <div id="max_connections">
+                                        <div style="font-size: 1em; color: #555;">Max connections</div>
+                                        <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                        <t t-esc="connection['max_connections']"/>
+                                    </div>
+                                </div>
+
+                                <!--            Server uptime-->
+                                <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                    <span class="fa fa-info-circle"
+                                          title="Monitor the time the server has been running without interruption."/>
+                                    <div id="server_uptime">
+                                        <h4>Server uptime</h4>
+                                        <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                        <t t-esc="up_time['uptime']"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <t t-if="server.get('database_metrics')">
+                            <!-- CPU Utilization -->
+                            <h3>Database metrics</h3>
+
+                            <div style="margin-left: 50px; font-weight: bold; margin-top: 50px; display: flex; gap: 20px; flex-wrap: wrap;">
+
+                                <!-- Database Name -->
+                                <div style="display: flex; flex-direction: column; align-items: center; padding: 20px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                    <div style="font-size: 1em; color: #555;">Database Name</div>
+                                    <div style="font-size: 1.5em; font-weight: bold; margin-bottom: 10px;">
+                                        <t t-esc="db_metrics['db_name']"/>
+                                    </div>
+                                </div>
+
+                                <!-- Cache Hit Ratio -->
+                                <div style="display: flex; flex-direction: column; align-items: center; padding: 20px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                    <div style="font-size: 1em; color: #555;">Cache Hit Ratio</div>
+                                    <div style="font-size: 1.5em; font-weight: bold; margin-bottom: 10px;">
+                                        <t t-esc="db_metrics['cache_hit_ratio']"/>
+                                    </div>
+                                </div>
+
+                                <!-- CPU Usage Percent -->
+                                <div style="display: flex; flex-direction: column; align-items: center; padding: 20px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                    <div style="font-size: 1em; color: #555;">CPU Usage Percent</div>
+                                    <div style="font-size: 1.5em; font-weight: bold; margin-bottom: 10px;">
+                                        <t t-esc="db_metrics['cpu_usage_percent']"/>
+                                    </div>
+                                </div>
+
+                                <!-- DB Size (MB) -->
+                                <div style="display: flex; flex-direction: column; align-items: center; padding: 20px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                    <div style="font-size: 1em; color: #555;">DB Size (MB)</div>
+                                    <div style="font-size: 1.5em; font-weight: bold; margin-bottom: 10px;">
+                                        <t t-esc="db_metrics['db_size_mb']"/>
+                                    </div>
+                                </div>
+
+                                <!-- Deadlocks -->
+                                <div style="display: flex; flex-direction: column; align-items: center; padding: 20px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                    <div style="font-size: 1em; color: #555;">Deadlocks</div>
+                                    <div style="font-size: 1.5em; font-weight: bold; margin-bottom: 10px;">
+                                        <t t-esc="db_metrics['deadlocks']"/>
+                                    </div>
+                                </div>
+
+                                <!-- Long Running Queries -->
+                                <div style="display: flex; flex-direction: column; align-items: center; padding: 20px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                    <div style="font-size: 1em; color: #555;">Long Running Queries (>5 min)</div>
+                                    <div style="font-size: 1.5em; font-weight: bold; margin-bottom: 10px;">
+                                        <t t-esc="db_metrics['long_running_queries']"/>
+                                    </div>
+                                </div>
+
+                                <!-- Memory Usage (MB) -->
+                                <div style="display: flex; flex-direction: column; align-items: center; padding: 20px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                    <div style="font-size: 1em; color: #555;">Memory Usage (MB)</div>
+                                    <div style="font-size: 1.5em; font-weight: bold; margin-bottom: 10px;">
+                                        <t t-esc="db_metrics['memory_usage_mb']"/>
+                                    </div>
+                                </div>
+
+                                <!-- Total Connections -->
+                                <div style="display: flex; flex-direction: column; align-items: center; padding: 20px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                    <div style="font-size: 1em; color: #555;">Total Connections</div>
+                                    <div style="font-size: 1.5em; font-weight: bold; margin-bottom: 10px;">
+                                        <t t-esc="db_metrics['total_connections']"/>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <h3>File Handling Metrics</h3>
+
+                            <div style="margin-left: 50px; font-weight: bold; margin-top: 50px; display: flex; gap: 20px;">
+                                <!--            File access failures-->
+                                <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                    <div id="access_failures">
+                                        <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                        <div style="font-size: 1em; color: #555;">Access Failures (last 30 days)
+                                        </div>
+                                        <t t-esc="file['access_failures']"/>
+                                    </div>
+                                </div>
+
+                                <!--            Average file size-->
+                                <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                    <div id="average_size">
+                                        <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                        <div style="font-size: 1em; color: #555;">Average Size In MB</div>
+                                        <t t-esc="file['average_size']"/>
+                                    </div>
+                                </div>
+
+                                <!--            Deleted files-->
+                                <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                    <div id="deleted_files">
+                                        <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                        <div style="font-size: 1em; color: #555;">Deleted Files(last 30 days)</div>
+                                        <t t-esc="file['deleted_files']"/>
+                                    </div>
+                                    <div style="font-size: 1em; color: #555;"></div>
+                                </div>
+
+
+                                <!--            Total files size-->
+                                <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                    <div id="total_size">
+                                        <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                        <div style="font-size: 1em; color: #555;">Total Files Size in MB</div>
+                                        <t t-if="file['total_size_mb'] &lt;= file['safe_upload_limit'] ">
+                                            <t t-esc="file['total_size_mb']"/>
+                                            <div style="color: green;">Good</div>
+                                        </t>
+                                        <t t-if="file['total_size_mb'] &gt; file['safe_upload_limit'] ">
+                                            <t t-esc="file['total_size_mb']"/>
+                                            <div style="color: red;">Bad</div>
+                                        </t>
+                                    </div>
+                                </div>
+
+                                <!--            Uploaded files-->
+                                <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                    <div id="uploaded_files">
+                                        <div style="font-size: 2em; font-weight: bold; margin-bottom: 10px;"/>
+                                        <div style="font-size: 1em; color: #555;">Uploaded Files (last 30 days)
+                                        </div>
+                                        <t t-esc="file['uploaded_files']"/>
+                                    </div>
+                                </div>
+
+                                <!--            Maximum file size-->
+                                <div style="display: flex; flex-direction: column; align-items: center; padding: 10px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 200px; text-align: center;">
+                                    <div id="max_size">
+                                        <div style="font-size: 1em; color: #555;">Maximum size</div>
+                                        <t t-esc="file['max_size']"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--                                file types-->
+                            <div>
+                                <div>
+                                    <div class="row mb-4">
+                                        <div class="col-md-6">
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <h3>File Types</h3>
+                                                    <table class="table table-bordered">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>File types</th>
+                                                                <th>Count</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <t t-if="file.get('file_types')">
+                                                                <t t-foreach="file['file_types'].items()"
+                                                                   t-as="file_item">
+                                                                    <tr>
+                                                                        <td>
+                                                                            <t t-esc="file_item[0]"/>
+                                                                        </td>
+                                                                        <td>
+                                                                            <t t-esc="file_item[1]"/>
+                                                                        </td>
+                                                                    </tr>
+                                                                </t>
+                                                            </t>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- File Distribution Table -->
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <h3>File Size Distribution</h3>
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Sizes</th>
+                                                        <th>Count</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <t t-if="file.get('file_distribution')">
+                                                        <t t-foreach="file['file_distribution'].items()"
+                                                           t-as="dist_item">￼
+                                                            <tr>
+                                                                <td>
+                                                                    <t t-esc="dist_item[0]"/>
+                                                                </td>
+                                                                <td>￼
+                                                                    <t t-esc="dist_item[1]"/>
+                                                                </td>
+                                                            </tr>
+                                                        </t>
+                                                    </t>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </t>
+
+                <br/>
+                <br/>
+                <!--                module_quality-->
+                <div>
+                <t t-if="module_quality">
+<!--                    <div style="page-break-before: always;">-->
+                        <h1>
+                            <u>Module Quality Analysis</u>
+                        </h1>
+
+                        <t t-set="field_details" t-value="module_quality['field_details']()"/>
+                        <t t-set="naming_convention" t-value="module_quality['naming_convention']()"/>
+                        <t t-set="count_lines" t-value="module_quality['count_lines']()"/>
+                        <t t-set="violations" t-value="module_quality['violations']"/>
+
+                        <t t-if="module_quality.get('naming_convention')">
+                            <!-- Invalid Naming Convention Section -->
+                            <section class="analysis-section" style="margin-bottom: 30px;">
+                                <div class="section-header">
+                                    <h3>Modules With Invalid Naming Convention</h3>
+                                </div>
+                                <div class="content-card">
+                                    <div class="tables-container"
+                                         style="display: flex; justify-content: space-between; gap: 20px;">
+                                        <div style="flex: 1;">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Invalid Modules</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <t t-foreach="naming_convention['invalid_module']"
+                                                       t-as="module">
+                                                        <tr>
+                                                            <td>
+                                                                <t t-esc="module"/>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Second Table: Field Details -->
+                                <t t-if="module_quality.get('field_details')">
+                                    <div style="flex: 1;">
+                                        <h3>Field Details</h3>
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Non stored fields</th>
+                                                    <th>Stored fields</th>
+                                                    <th>Total fields</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <t t-esc="field_details['nonstored_fields']"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="field_details['stored_fields']"/>
+                                                    </td>
+                                                    <td>
+                                                        <t t-esc="field_details['total_fields']"/>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </t>
+                            </section>
+                        </t>
+<!--                    </div>-->
+
+                    <!-- Module Lines of Code Section -->
+                    <t t-if="module_quality.get('count_lines')">
+                        <section class="analysis-section" style="margin-bottom: 30px;">
+                            <div class="section-header">
+                                <h3>Module Lines of Code</h3>
+                            </div>
+                            <br/>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Module</th>
+                                        <th>JavaScript Lines</th>
+                                        <th>Python Lines</th>
+                                        <th>XML Lines</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="count_lines" t-as="module">
+                                        <tr>
+                                            <td>
+                                                <t t-esc="module"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="count_lines[module]['js_lines']"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="count_lines[module]['py_lines']"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="count_lines[module]['xml_lines']"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </section>
+                    </t>
+
+                    <div style="page-break-before: always;">
+                        <!-- PEP8 Violations Section -->
+                        <section class="analysis-section" style="margin-bottom: 30px;">
+                            <t t-if="violations">
+                                <div class="section-header"
+                                     style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); padding: 15px; border-radius: 10px 10px 0 0; color: white;">
+
+                                    <h3 style="margin: 0; font-size: 20px;">PEP8 Violations</h3>
+                                </div>
+<!--                                <t t-foreach="module" t-as="custom_module">-->
+                                <h3>Violations</h3>
+
+                                    <t t-foreach="violations" t-as="violation_data">
+
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">File Name</th>
+                                                    <th scope="col">Line Number</th>
+                                                    <th scope="col">Violation Message</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <t t-foreach="violation_data['violations_by_file']" t-as="data">
+                                                    <t style="transition: all 0.2s;" class="violation-row">
+                                                        <tr>
+                                                            <td style="padding: 12px 15px; border-bottom: 1px solid #e5e7eb;">
+                                                                <span style="font-weight: 500; color: #374151;">
+                                                                    <t t-esc="data['file_name']"/>
+                                                                </span>
+                                                            </td>
+                                                            <td style="padding: 12px 15px; border-bottom: 1px solid #e5e7eb; text-align: center;">
+                                                                <span class="badge"
+                                                                      style="background-color: #fee2e2; color: #991b1b; padding: 5px 10px; border-radius: 6px;">
+                                                                    <t t-esc="data['line_number']"/>
+                                                                </span>
+                                                            </td>
+                                                            <td style="padding: 12px 15px; border-bottom: 1px solid #e5e7eb;">
+                                                                <span style="color: #6b7280;">
+                                                                    <t t-esc="data['violation_message']"/>
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    </t>
+                                                </t>
+                                            </tbody>
+                                        </table>
+                                    </t>
+<!--                                </t>-->
+                            </t>
+                            </section>
+                        </div>
+                    </t>
+                    </div>
+                </t>
+        </t>
+    </template>
+</odoo>

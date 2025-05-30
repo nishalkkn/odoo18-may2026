@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Configurator actions -->
+    <record id="Server_configurator" model="ir.actions.client">
+        <field name="name">Server Configurator</field>
+        <field name="tag">server_template_tag</field>
+    </record>
+
+    <!--        <record id="action_open_server_configurator" model="ir.actions.client">-->
+    <!--            <field name="name">Open server Configurator</field>-->
+    <!--            <field name="tag">reload</field>-->
+    <!--            &lt;!&ndash;            <field name="params" eval="{'action_id': ref('Server_configurator')}"/>&ndash;&gt;-->
+    <!--        </record>-->
+
+    <!--        <record id="server_configurator_todo" model="ir.actions.todo">-->
+    <!--            <field name="name">Start Website Configurator</field>-->
+    <!--            <field name="action_id" ref="action_open_server_configurator"/>-->
+    <!--        </record>-->
+</odoo>

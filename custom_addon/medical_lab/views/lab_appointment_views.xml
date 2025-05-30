@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!--        Creating lab appointment view-->
+    <record id="kanban_view_lab_appointment" model="ir.ui.view">
+        <field name="name">Appointment Kanban</field>
+        <field name="model">lab.appointment</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="stage_id">
+                <templates>
+                    <t t-name="card">
+                        <div class="oe_kanban_global_click">
+                            <div class="oe_kanban_details">
+                                <strong>
+                                    <div>Name :
+                                        <field name="patient_id"/>
+                                    </div>
+                                    <div>Lab Request ID :
+                                        <field name="name"/>
+                                    </div>
+                                    <div>Appointment Date :
+                                        <field name="appointment_date"/>
+                                    </div>
+                                </strong>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="lab_appointment_view_list" model="ir.ui.view">
+        <field name="name">lab.appointment.view.list</field>
+        <field name="model">lab.appointment</field>
+        <field name="priority" eval="8"/>
+        <field name="arch" type="xml">
+            <list string="Appointments">
+                <field name="patient_id"/>
+                <field name="name"/>
+                <field name="hospital_id"/>
+            </list>
+        </field>
+    </record>
+    <record id="lab_appointment_view_form" model="ir.ui.view">
+        <field name="name">lab.appointment.view.form</field>
+        <field name="model">lab.appointment</field>
+        <field name="priority" eval="8"/>
+        <field name="arch" type="xml">
+            <form string="Appointment">
+                <header>
+                    <field name="stage_id" widget="statusbar" options="{'clickable': '1'}" />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                            <label for="name"/>
+                            <h1><field name="name" class="oe_inline"/></h1>
+                    </div>
+                    <group>
+                        <group col="4" colspan="4">
+                            <field name="patient_id"/>
+                            <field name="date"/>
+                            <field name="appointment_date"/>
+                        </group>
+                        <group>
+                            <field name="priority" widget="priority"/>
+                            <field name="stage_id"/>
+                            <fields name="hospital_id"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="lab_appointment_view_search" model="ir.ui.view">
+        <field name="name">lab.appointment.view.search</field>
+        <field name="model">lab.appointment</field>
+        <field name="priority" eval="8"/>
+        <field name="arch" type="xml">
+            <search string="Appointment">
+                <field name="patient_id"/>
+                <field name="date"/>
+                <field name="name"/>
+            </search>
+        </field>
+    </record>
+    <record id="act_open_lab_appointment_view"
+            model="ir.actions.act_window">
+        <field name="name">Appointments</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">lab.appointment</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="lab_appointment_view_search"/>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create Appointments.
+            </p>
+        </field>
+    </record>
+    <record id="lab_appointment_action" model="ir.actions.act_window">
+        <field name="name">Appointments</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">lab.appointment</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="lab_appointment_view_search"/>
+        <field name="domain">[('appointment_date', '&gt;=',((datetime.date.today()-
+            datetime.timedelta(days=0)).strftime('%Y-%m-%d 00:00:00'))),
+            ('appointment_date', '&lt;=',((datetime.date.today()-
+            datetime.timedelta(days=0)).strftime('%Y-%m-%d 23:59:59')))]
+        </field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create Appointments.
+            </p>
+        </field>
+    </record>
+    <menuitem id="menu_lab_appointment" name="Appointments" sequence="11"
+              parent="lab_patient_menu_root"/>
+    <menuitem id="menu_lab_appointment_child" name="Appointments"
+              sequence="10"
+              parent="menu_lab_appointment"
+              action="act_open_lab_appointment_view"/>
+    <menuitem id="menu_lab_appointment_child_2"
+              name=" Today's Appointments" sequence="11"
+              parent="menu_lab_appointment"
+              action="lab_appointment_action"/>
+</odoo>

@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_lab_patient_user,access.lab.patient,model_lab_patient,base.group_user,1,1,1,1
+access_lab_appointment_user,access.lab.appointment,model_lab_appointment,base.group_user,1,1,1,1
+access_lab_stage_user,access.lab.stage,model_lab_stage,base.group_user,1,1,0,0

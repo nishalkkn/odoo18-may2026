@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Configurator action -->
+    <record id="website_health_configurator_id" model="ir.actions.client">
+        <field name="name">Website Health Configurator</field>
+        <field name="tag">website_health_configurator</field>
+        <!--            <field name="target">fullscreen</field>-->
+    </record>
+
+    <record id="server_configurator" model="ir.actions.client">
+        <field name="name">Server Configurator</field>
+        <field name="tag">server_template_tag</field>
+    </record>
+
+    <record id="module_quality" model="ir.actions.client">
+        <field name="name">Module Quality Analysis</field>
+        <field name="tag">module_quality_tag</field>
+    </record>
+
+
+    <menuitem name="Monitoring Details" id="menu_monitor_details"/>
+    <menuitem id="website_side" name="Website" action="website_health_configurator_id"
+              parent="menu_monitor_details" sequence="1"/>
+    <menuitem id="server_side" name="Server"
+              action="server_configurator" parent="menu_monitor_details" sequence="2"/>
+    <menuitem id="module_quality_id" name="Module Quality"
+              action="module_quality" parent="menu_monitor_details" sequence="3"/>
+</odoo>

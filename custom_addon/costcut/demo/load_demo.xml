@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data noupdate="1">
+        <record id="pedicure_product" model="product.product">
+            <field name="name">Pedicure</field>
+            <field name="list_price">50</field>
+            <field name="type">service</field>
+            <field name="required_time">60.00</field>
+            <field name="sale_ok" eval="True"/>
+        </record>
+        <record id="manicure_product" model="product.product">
+            <field name="name">Manicure</field>
+            <field name="list_price">45</field>
+            <field name="type">service</field>
+            <field name="required_time">45.00</field>
+            <field name="sale_ok" eval="True"/>
+        </record>
+        <record id="haircut_product" model="product.product">
+            <field name="name">Haircut</field>
+            <field name="list_price">30</field>
+            <field name="type">service</field>
+            <field name="required_time">50.00</field>
+            <field name="sale_ok" eval="True"/>
+        </record>
+        <record id="facial_product" model="product.product">
+            <field name="name">Facial</field>
+            <field name="list_price">80</field>
+            <field name="type">service</field>
+            <field name="required_time">150.00</field>
+            <field name="sale_ok" eval="True"/>
+        </record>
+        <record id="massage_product" model="product.product">
+            <field name="name">Massage</field>
+            <field name="list_price">100</field>
+            <field name="type">service</field>
+            <field name="required_time">15.00</field>
+            <field name="sale_ok" eval="True"/>
+        </record>
+        <record id="hair_coloring_product" model="product.product">
+            <field name="name">Hair Coloring</field>
+            <field name="list_price">120</field>
+            <field name="type">service</field>
+            <field name="required_time">20.00</field>
+            <field name="sale_ok" eval="True"/>
+        </record>
+        <record id="face_pack_product" model="product.product">
+            <field name="name">Face Pack</field>
+            <field name="list_price">25</field>
+            <field name="type">consu</field> <!-- 'consu' for consumable product -->
+            <field name="sale_ok" eval="True"/>
+        </record>
+        <record id="vitamin_c_serum_product" model="product.product">
+            <field name="name">Vitamin C Serum</field>
+            <field name="list_price">45</field>
+            <field name="type">consu</field>
+            <field name="sale_ok" eval="True"/>
+        </record>
+        <record id="hydrating_gel_product" model="product.product">
+            <field name="name">Hydrating Gel</field>
+            <field name="list_price">35</field>
+            <field name="type">consu</field>
+            <field name="sale_ok" eval="True"/>
+        </record>
+        <record id="charcoal_face_pack_product" model="product.product">
+            <field name="name">Charcoal Face Pack</field>
+            <field name="list_price">30</field>
+            <field name="type">consu</field>
+            <field name="sale_ok" eval="True"/>
+        </record>
+        <record id="aloe_vera_gel_product" model="product.product">
+            <field name="name">Aloe Vera Gel</field>
+            <field name="list_price">20</field>
+            <field name="type">consu</field>
+            <field name="sale_ok" eval="True"/>
+        </record>
+        <record id="sale_order_14" model="sale.order">
+            <field name="partner_id" ref="base.res_partner_5"/>
+            <field name="state">draft</field>
+            <field name="order_state">booked</field>
+            <field name="is_appointment">True</field>
+        </record>
+        <record id="sale_order_11" model="sale.order">
+            <field name="partner_id" ref="base.res_partner_5"/>
+            <field name="state">draft</field>
+            <field name="order_state">booked</field>
+            <field name="is_appointment">True</field>
+        </record>
+        <!-- Appointment Schedule for Pedicure -->
+        <record id="sale_order_10" model="sale.order">
+            <field name="partner_id" ref="base.res_partner_4"/>
+            <field name="state">draft</field>
+            <field name="order_state">booked</field>
+            <field name="is_appointment">True</field>
+        </record>
+        <record id="sale_order_9" model="sale.order">
+            <field name="partner_id" ref="base.res_partner_4"/>
+            <field name="state">draft</field>
+            <field name="order_state">booked</field>
+            <field name="is_appointment">True</field>
+        </record>
+        <record id="sale_order_8" model="sale.order">
+            <field name="partner_id" ref="base.res_partner_4"/>
+            <field name="state">draft</field>
+            <field name="order_state">booked</field>
+            <field name="is_appointment">True</field>
+        </record>
+        <record id="sale_order_1" model="sale.order">
+            <field name="partner_id" ref="base.res_partner_4"/>
+            <field name="state">draft</field>
+            <field name="order_state">booked</field>
+            <field name="is_appointment">True</field>
+        </record>
+        <!-- Appointment Schedule for Manicure -->
+        <record id="sale_order_2" model="sale.order">
+            <field name="partner_id" ref="base.res_partner_5"/>
+            <field name="state">draft</field>
+            <field name="order_state">booked</field>
+            <field name="is_appointment">True</field>
+        </record>
+        <!-- Appointment Schedule for Haircut -->
+        <record id="sale_order_3" model="sale.order">
+            <field name="partner_id" ref="base.res_partner_12"/>
+            <field name="state">draft</field>
+            <field name="order_state">booked</field>
+            <field name="is_appointment">True</field>
+        </record>
+        <!-- Appointment Schedule for Facial -->
+        <record id="sale_order_4" model="sale.order">
+            <field name="partner_id" ref="base.res_partner_address_13"/>
+            <field name="state">draft</field>
+            <field name="order_state">booked</field>
+            <field name="is_appointment">True</field>
+        </record>
+        <!-- Appointment Schedule for Massage -->
+        <record id="sale_order_5" model="sale.order">
+            <field name="partner_id" ref="base.res_partner_address_13"/>
+            <field name="state">draft</field>
+            <field name="order_state">booked</field>
+            <field name="is_appointment">True</field>
+        </record>
+        <!-- Additional Appointment Schedules for consumable products -->
+        <!-- Appointment for Face Pack -->
+        <record id="sale_order_6" model="sale.order">
+            <field name="partner_id" ref="base.res_partner_18"/>
+            <field name="state">draft</field>
+            <field name="order_state">booked</field>
+            <field name="is_appointment">True</field>
+        </record>
+        <!-- Appointment for Vitamin C Serum -->
+        <record id="sale_order_7" model="sale.order">
+            <field name="partner_id" ref="base.partner_admin"/>
+            <field name="state">draft</field>
+            <field name="order_state">booked</field>
+            <field name="is_appointment">True</field>
+        </record>
+        <record id="order_line_1_1" model="sale.order.line">
+            <field name="order_id" ref="sale_order_14"/>
+            <field name="product_id" ref="pedicure_product"/>
+            <field name="employee_id" ref="hr.employee_vad"/>
+            <field name="price_unit">50</field>
+            <field name="time_from">2024-11-08 16:00:00</field>
+            <field name="time_to">2024-11-08 16:30:00</field>
+            <field name="order_state">booked</field>
+            <field name="color">#808080</field>
+            <field name="is_appointment">True</field>
+        </record>
+        <record id="order_line_12_1" model="sale.order.line">
+            <field name="order_id" ref="sale_order_1"/>
+            <field name="product_id" ref="hydrating_gel_product"/>
+            <field name="employee_id" ref="hr.employee_vad"/>
+            <field name="price_unit">35</field>
+            <field name="time_from">2024-11-08 10:00:00</field>
+            <field name="time_to">2024-11-08 10:45:00</field>
+            <field name="order_state">booked</field>
+            <field name="color">#808080</field>
+            <field name="is_appointment">True</field>
+        </record>
+        <record id="order_line_13_1" model="sale.order.line">
+            <field name="order_id" ref="sale_order_2"/>
+            <field name="product_id" ref="massage_product"/>
+            <field name="employee_id" ref="hr.employee_vad"/>
+            <field name="price_unit">100</field>
+            <field name="time_from">2024-11-08 12:00:00</field>
+            <field name="time_to">2024-11-08 12:30:00</field>
+            <field name="order_state">booked</field>
+            <field name="color">#808080</field>
+            <field name="is_appointment">True</field>
+        </record>
+        <record id="order_line_14_1" model="sale.order.line">
+            <field name="order_id" ref="sale_order_3"/>
+            <field name="product_id" ref="massage_product"/>
+            <field name="employee_id" ref="hr.employee_vad"/>
+            <field name="price_unit">100</field>
+            <field name="time_from">2024-11-08 08:00:00</field>
+            <field name="time_to">2024-11-08 08:30:00</field>
+            <field name="order_state">booked</field>
+            <field name="color">#808080</field>
+            <field name="is_appointment">True</field>
+        </record>
+        <!-- Order Line for Manicure -->
+        <record id="order_line_2_1" model="sale.order.line">
+            <field name="order_id" ref="sale_order_4"/>
+            <field name="product_id" ref="manicure_product"/>
+            <field name="employee_id" ref="hr.employee_jve"/>
+            <field name="price_unit">45</field>
+            <field name="time_from">2024-11-08 13:00:00</field>
+            <field name="time_to">2024-11-08 13:30:00</field>
+            <field name="order_state">booked</field>
+            <field name="color">#808080</field>
+            <field name="is_appointment">True</field>
+        </record>
+        <!-- Order Line for Haircut -->
+        <record id="order_line_3_1" model="sale.order.line">
+            <field name="order_id" ref="sale_order_5"/>
+            <field name="product_id" ref="haircut_product"/>
+            <field name="employee_id" ref="hr.employee_jve"/>
+            <field name="price_unit">30</field>
+            <field name="time_from">2024-11-08 12:00:00</field>
+            <field name="time_to">2024-11-08 12:30:00</field>
+            <field name="order_state">booked</field>
+            <field name="color">#808080</field>
+            <field name="is_appointment">True</field>
+        </record>
+         <!-- Order Line for Vitamin C Serum -->
+        <record id="order_line_8_1" model="sale.order.line">
+            <field name="order_id" ref="sale_order_6"/>
+            <field name="product_id" ref="vitamin_c_serum_product"/>
+            <field name="employee_id" ref="hr.employee_jve"/>
+            <field name="price_unit">45</field>
+            <field name="time_from">2024-11-08 11:15:00</field>
+            <field name="time_to">2024-11-08 12:05:00</field>
+            <field name="order_state">booked</field>
+            <field name="color">#808080</field>
+            <field name="is_appointment">True</field>
+        </record>
+        <!-- Order Line for Facial -->
+        <record id="order_line_4_1" model="sale.order.line">
+            <field name="order_id" ref="sale_order_7"/>
+            <field name="product_id" ref="facial_product"/>
+            <field name="employee_id" ref="hr.employee_al"/>
+            <field name="price_unit">80</field>
+            <field name="time_from">2024-11-08 05:00:00</field>
+            <field name="time_to">2024-11-08 05:30:00</field>
+            <field name="order_state">booked</field>
+            <field name="color">#808080</field>
+            <field name="is_appointment">True</field>
+        </record>
+        <!-- Order Line for Face Pack -->
+        <record id="order_line_7_1" model="sale.order.line">
+            <field name="order_id" ref="sale_order_8"/>
+            <field name="product_id" ref="face_pack_product"/>
+            <field name="employee_id" ref="hr.employee_al"/>
+            <field name="price_unit">25</field>
+            <field name="time_from">2024-11-08 10:30:00</field>
+            <field name="time_to">2024-11-08 10:45:00</field>
+            <field name="order_state">booked</field>
+            <field name="color">#808080</field>
+            <field name="is_appointment">True</field>
+        </record>
+        <!-- Order Line for Massage -->
+        <record id="order_line_5_1" model="sale.order.line">
+            <field name="order_id" ref="sale_order_9"/>
+            <field name="product_id" ref="massage_product"/>
+            <field name="employee_id" ref="hr.employee_admin"/>
+            <field name="price_unit">100</field>
+            <field name="time_from">2024-11-08 09:00:00</field>
+            <field name="time_to">2024-11-08 09:30:00</field>
+            <field name="order_state">booked</field>
+            <field name="color">#808080</field>
+            <field name="is_appointment">True</field>
+        </record>
+        <!-- Order Line for Hair Coloring -->
+        <record id="order_line_6_1" model="sale.order.line">
+            <field name="order_id" ref="sale_order_10"/>
+            <field name="product_id" ref="hair_coloring_product"/>
+            <field name="employee_id" ref="hr.employee_admin"/>
+            <field name="price_unit">120</field>
+            <field name="time_from">2024-11-08 09:45:00</field>
+            <field name="time_to">2024-11-08 10:30:00</field>
+            <field name="order_state">booked</field>
+            <field name="color">#808080</field>
+            <field name="is_appointment">True</field>
+        </record>
+        <!-- Order Line for Hydrating Gel -->
+        <record id="order_line_9_1" model="sale.order.line">
+            <field name="order_id" ref="sale_order_11"/>
+            <field name="product_id" ref="hydrating_gel_product"/>
+            <field name="employee_id" ref="hr.employee_fme"/>
+            <field name="price_unit">35</field>
+            <field name="time_from">2024-11-08 12:15:00</field>
+            <field name="time_to">2024-11-08 14:45:00</field>
+            <field name="order_state">booked</field>
+            <field name="color">#808080</field>
+            <field name="is_appointment">True</field>
+        </record>
+        <!-- Order Line for Charcoal Face Pack -->
+        <record id="order_line_10_1" model="sale.order.line">
+            <field name="order_id" ref="sale_order_8"/>
+            <field name="product_id" ref="charcoal_face_pack_product"/>
+            <field name="employee_id" ref="hr.employee_fpi"/>
+            <field name="price_unit">30</field>
+            <field name="time_from">2024-11-08 15:00:00</field>
+            <field name="time_to">2024-11-08 15:15:00</field>
+            <field name="order_state">booked</field>
+            <field name="color">#808080</field>
+            <field name="is_appointment">True</field>
+        </record>
+        <!-- Order Line for Aloe Vera Gel -->
+        <record id="order_line_11_1" model="sale.order.line">
+            <field name="order_id" ref="sale_order_6"/>
+            <field name="product_id" ref="aloe_vera_gel_product"/>
+            <field name="employee_id" ref="hr.employee_fpi"/>
+            <field name="price_unit">20</field>
+            <field name="time_from">2024-11-08 09:00:00</field>
+            <field name="time_to">2024-11-08 09:30:00</field>
+            <field name="order_state">booked</field>
+            <field name="color">#808080</field>
+            <field name="is_appointment">True</field>
+        </record>
+    </data>
+</odoo>

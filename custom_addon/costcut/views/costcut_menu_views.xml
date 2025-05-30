@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <menuitem id="menu_costcut" name="COSTCUT" web_icon="costcut,static/description/icon.png"
+              groups="costcut.group_costcut_manager,costcut.group_costcut_user"/>
+    <menuitem id="menu_appointment" name="Appointment" sequence="1" parent="costcut.menu_costcut"/>
+    <!--    <menuitem id="menu_appointment_schedule_action" name="Booking Calendar" sequence="1"-->
+    <!--              action="appointment_schedule_action"-->
+    <!--              parent="costcut.menu_appointment"/>-->
+    <menuitem id="menu_order_line_calendar_root"
+              name="Order Line Calendar"
+              sequence="1"
+              parent="costcut.menu_appointment"
+              action="action_sale_order_line_calendar"/>
+    <!--    <menuitem id="menu_costcut_appointment_schedule_action" name="Scheduler" sequence="2"-->
+    <!--              action="costcut_appointment_schedule_action"-->
+    <!--              parent="costcut.menu_appointment"/>-->
+    <menuitem id="menu_appointment_history_action" name="Appointment History" sequence="2"
+              action="costcut.appointment_schedule_window_action"
+              parent="costcut.menu_appointment"/>
+    <menuitem id="menu_customers" name="Customers" sequence="3" parent="menu_costcut"/>
+    <menuitem id="menu_action_partner_form" name="Customers" action="base.action_partner_form" sequence="1"
+              parent="costcut.menu_customers"/>
+    <menuitem id="menu_action_move_out_invoice_type" action="account.action_move_out_invoice_type"
+              parent="costcut.menu_customers"
+              sequence="2"/>
+    <menuitem id="menu_action_account_payments" action="account.action_account_payments"
+              parent="costcut.menu_customers" sequence="3"/>
+    <menuitem id="menu_staffs" name="Employees" parent="costcut.menu_costcut" sequence="3"/>
+    <menuitem id="menu_open_view_employee_list_my" parent="costcut.menu_staffs" sequence="1"
+              action="hr.open_view_employee_list_my"/>
+    <menuitem id="menu_hr_leave_action_action_approve_department" parent="costcut.menu_staffs" sequence="2"
+              action="hr_holidays.hr_leave_action_action_approve_department"/>
+    <menuitem id="menu_service_products" name="Services &amp; Products" sequence="1" parent="costcut.menu_costcut"/>
+    <menuitem id="menu_costcut_services" name="Services" sequence="1" action="costcut.action_product_service"
+              parent="costcut.menu_service_products"/>
+    <menuitem id="menu_costcut_products" name="Products" sequence="2" action="costcut.action_product_product"
+              parent="costcut.menu_service_products"/>
+    <menuitem id="menu_calendar_emp_filter_action" name="Employee Filters" sequence="3"
+              action="costcut.action_calendar_emp_filter"
+              parent="costcut.menu_service_products"/>
+
+    <menuitem id="costcut_menu_config" parent="costcut.menu_costcut" name="Configuration" sequence="40"/>
+    <menuitem id="menu_tags_colors" name="Tags And Colors" action="action_tag_colour_view"
+              parent="costcut.costcut_menu_config"
+              sequence="1"/>
+    <menuitem id="menu_discount_type_action" action="costcut.action_discount_type"
+              parent="costcut.costcut_menu_config"/>
+    <menuitem id="menu_customer_type_action" action="costcut.action_customer_type"
+              parent="costcut.costcut_menu_config"/>
+    <menuitem id="menu_scheduler_config_action" action="costcut.action_scheduler_config"
+              parent="costcut.costcut_menu_config"/>
+</odoo>

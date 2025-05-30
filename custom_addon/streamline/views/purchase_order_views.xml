@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="purchase_order_views_form_inherit" model="ir.ui.view">
+        <field name="name">purchase.order.form.approval</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_rfq_send']" position="before">
+                <button name="action_request_approve_rfq"
+                        string="Request To Approve"
+                        type="object"
+                        class="btn-primary"
+                        groups="!purchase.group_purchase_manager"
+                        invisible="state != 'draft'"/>
+                <button name="action_approve_rfq"
+                        string="Approve"
+                        type="object"
+                        class="btn-primary"
+                        groups="purchase.group_purchase_manager"
+                        invisible="state not in  ('draft','rfq_to_approve')"/>
+            </xpath>
+            <xpath expr="(//button[@name='action_rfq_send'])[1]" position="replace">
+                <button name="action_rfq_send" invisible="state != 'approved'" string="Send by Email" type="object"
+                        context="{'send_rfq':True}" class="oe_highlight" data-hotkey="g"/>
+            </xpath>
+            <xpath expr="//button[@name='button_confirm' and @id='draft_confirm']" position="replace">
+                <button name="button_confirm" type="object" invisible="state != 'approved'"
+                        context="{'validate_analytic': True}" string="Confirm Order" id="draft_confirm"
+                        data-hotkey="q"/>
+            </xpath>
+            <xpath expr="(//button[@name='button_cancel'])[1]" position="replace">
+                <button name="button_cancel"
+                        invisible="state not in  ('draft','rfq_to_approve','approved','to approve','sent','purchase')"
+                        string="Cancel" type="object"
+                        data-hotkey="x"/>
+            </xpath>
+            <xpath expr="(//button[@name='print_quotation'])[1]" position="replace">
+                <button name="print_quotation" string="Print RFQ" type="object"
+                        invisible="state not in  ('draft','approved')"
+                        class="oe_highlight" groups="base.group_user" data-hotkey="k"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

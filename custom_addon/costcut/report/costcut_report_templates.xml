@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--    It's the pdf template for showing the turnover report-->
+    <record id="cost_cut_report" model="ir.actions.report">
+        <field name="name">CostCut Report</field>
+        <field name="model">costcut.report</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">costcut.costcut_pdf_report</field>
+        <field name="report_file">costcut.costcut_pdf_report</field>
+        <field name="binding_model_id" ref="model_costcut_report"/>
+        <field name="binding_type">report</field>
+    </record>
+    <template id="costcut_pdf_report">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <center>
+                        <h2>CostCut Analysis Report</h2>
+                    </center>
+                </div><br/>
+                <t t-if="start_date or end_date">
+                    <table class="table">
+                    <tr>
+                        <td>
+                            <t t-if="start_date">
+                                <b>Start date:</b>
+                                <t t-esc="start_date"/>
+                            </t>
+                        </td>
+                        <td>
+                            <t t-if="end_date">
+                                <b>End date:</b>
+                                <t t-esc="end_date"/>
+                            </t>
+                        </td>
+                    </tr>
+                </table>
+                </t>
+                <t t-if="grouped_data">
+                    <t t-foreach="grouped_data" t-as="group">
+                            <div class="page">
+                                <h2 t-esc="group['employee_id'][1] if group['employee_id'] else 'Unknown Staff'"/>
+                                <table class="table table-sm o_main_table">
+                                    <thead>
+                                        <tr style="text-align: center;">
+                                            <th style="width:5%">Service</th>
+                                            <th style="width:5%">Customer</th>
+                                            <th style="width:5%">Start Date</th>
+                                            <th style="width:5%">End Date</th>
+                                            <th style="width:5%">Sale Order</th>
+                                            <th style="width:5%">State</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="costcut_report" t-as="record">
+                                            <tr t-if="record['employees'] == group['employee_id'][1]">
+                                                <td t-esc="record['product_id'] if record['product_id'] else ''"/>
+                                                <td t-esc="record['partner_id'] if record['partner_id'] else ''"/>
+                                                <td t-esc="record['start_date'] if record['start_date'] else ' '"/>
+                                                <td t-esc="record['end_date'] if record['end_date'] else ' '"/>
+                                                <td t-esc="record['sale_order_id'] if record['sale_order_id'] else ' '"/>
+                                                <td t-esc="record['state'] if record['state'] else ' '"/>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </t>
+                </t>
+                <t t-elif="grouped_product_data">
+                    <t t-foreach="grouped_product_data" t-as="group">
+                        <h3>Product: <t t-esc="group['product_name']"/></h3>
+                        <table>
+                            <thead>
+                                <tr style="text-align: center;">
+                                    <th style="width:5%">Staff</th>
+                                    <th style="width:5%">Customer</th>
+                                    <th style="width:5%">Start Date</th>
+                                    <th style="width:5%">End Date</th>
+                                    <th style="width:5%">Sale Order</th>
+                                    <th style="width:5%">State</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="appointments" t-value="request.env['appointment.schedule'].search([('id', 'in', group['appointments'])])"/>
+                                <t t-foreach="appointments" t-as="appointment">
+                                    <tr style="text-align: center;">
+                                        <td><t t-esc="appointment.employee_id.name if appointment.employee_id else 'N/A'"/></td>
+                                        <td><t t-esc="appointment.partner_id.name if appointment.partner_id else 'N/A'"/></td>
+                                        <td><t t-esc="appointment.start_date if appointment.start_date else ''"/></td>
+                                        <td><t t-esc="appointment.end_date if appointment.end_date else ' '"/></td>
+                                        <td><t t-esc="appointment.sale_order_id.name if appointment.sale_order_id else ' '"/></td>
+                                        <td><t t-esc="appointment.state if appointment.state else ''"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+                </t>
+                <t t-else="">
+                    <table class="table">
+                    <thead>
+                        <tr style="text-align: center;">
+                            <th style="width:5%">Staff</th>
+                            <th style="width:5%">Product</th>
+                            <th style="width:5%">Customer</th>
+                            <th style="width:5%">Start Date</th>
+                            <th style="width:5%">End Date</th>
+                            <th style="width:5%">Sale Order</th>
+                            <th style="width:5%">State</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="costcut_report" t-as="i">
+                            <tr style="text-align: center;">
+                                <td t-esc="i['employees'] if i['employees'] else ''"/>
+                                <td t-esc="i['product_id'] if i['product_id'] else ''"/>
+                                <td t-esc="i['partner_id'] if i['partner_id'] else ''"/>
+                                <td t-esc="i['start_date'] if i['start_date'] else ''"/>
+                                <td t-esc="i['end_date'] if i['end_date'] else ''"/>
+                                <td t-esc="i['sale_order_id'] if i['sale_order_id'] else ''"/>
+                                <td t-esc="i['state'] if i['state'] else ''"/>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

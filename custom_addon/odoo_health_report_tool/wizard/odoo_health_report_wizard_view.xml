@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="odoo_health_report_wizard_view_form" model="ir.ui.view">
+        <field name="name">odoo.health.report.wizard.form</field>
+        <field name="model">odoo.health.report.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="website"/>
+                    <field name="server"/>
+                    <field name="module_quality"/>
+                    <field name="selected_module" widget="many2many_tags" invisible="not module_quality"/>
+                </group>
+                <group>
+                    <footer>
+                        <button string="Print Report" name="action_print_odoo_health_report" class="oe_highlight"
+                                type="object"/>
+                        <button string="Cancel" special="cancel"/>
+                    </footer>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_reporting_wizard" model="ir.actions.act_window">
+        <field name="name">Report</field>
+        <field name="res_model">odoo.health.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="odoo_health_report_wizard_view_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="reporting_wizard" action="action_reporting_wizard"
+              parent="odoo_health_report_tool.menu_monitor_details"/>
+</odoo>

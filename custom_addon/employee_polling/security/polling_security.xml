@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="rule_poll_manager" model="ir.rule">
+        <field name="name">Poll: HR/Manager Access</field>
+        <field name="model_id" ref="model_employee_poll"/>
+        <field name="groups" eval="[(4, ref('hr.group_hr_manager'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+    </record>
+    <record id="rule_poll_employee" model="ir.rule">
+        <field name="name">Poll: Employee Read/Vote</field>
+        <field name="model_id" ref="model_employee_poll"/>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+</odoo>

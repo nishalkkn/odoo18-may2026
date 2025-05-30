@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="flat_management_view_list" model="ir.ui.view">
+        <field name="name">flat.management.list</field>
+        <field name="model">flat.management</field>
+        <field name="arch" type="xml">
+            <list string="Channel">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+
+        <record id="flat_management_view_form" model="ir.ui.view">
+            <field name="name">flat.management.form</field>
+            <field name="model">flat.management</field>
+            <field name="arch" type="xml">
+                <form string="Flat Management">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Flats">
+                                <group>
+                                    <field name="flat_ids" nolabel="1" colspan="2"/>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+    <record id="flat_management_action" model="ir.actions.act_window">
+        <field name="name">Flat Management</field>
+        <field name="res_model">flat.management</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="flat_management_id" action="flat_management_action" parent="flat_menu_root"/>
+
+</odoo>

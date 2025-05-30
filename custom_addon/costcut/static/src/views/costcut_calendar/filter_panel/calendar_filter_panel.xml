@@ -1,0 +1,29 @@
+<templates xml:space="preserve">
+    <t t-name="costcut.CostCutCalendarFilterPanel">
+        <div class="o_calendar_filter_panel" style="overflow-y: auto;height: 27vh;">
+            <h4>Staff Section</h4>
+            <div>
+                <t t-foreach="props.employees" t-as="employee" t-key="employee.id">
+                    <div class="d-flex align-items-center mb-3">
+                        <input
+                            type="checkbox"
+                            t-att-checked="employee.isChecked"
+                            t-att-id="'emp_' + employee.id"
+                            t-on-click="()=> props.toggleEmployee(employee.id)"
+                            style="margin-right: 8px;"
+                        />
+
+                        <img
+                            t-att-src="employee.avatarUrl"
+                            class="rounded-circle"
+                            style="width: 40px; height: 40px; object-fit: cover; margin-right: 10px; border: 2px solid #ccc;"
+                        />
+                        <label t-att-for="'emp_' + employee.id" class="m-0">
+                            <t t-esc="employee.name" />
+                        </label>
+                    </div>
+                </t>
+            </div>
+        </div>
+    </t>
+</templates>

@@ -1,0 +1,8 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+
+access_odoo_health_report_wizard,access.odoo.health.report.wizard,model_odoo_health_report_wizard,base.group_user,1,1,1,1
+
+access_website_performance_details,access.website.performance.details,model_website_performance_details,base.group_user,1,1,1,1
+access_website_seo_details,access.website.seo.details,model_website_seo_details,base.group_user,1,1,1,1
+access_website_security_details,access.website.security.details,model_website_security_details,base.group_user,1,1,1,1
+access_website_ui_details,access.website.ui.details,model_website_ui_details,base.group_user,1,1,1,1

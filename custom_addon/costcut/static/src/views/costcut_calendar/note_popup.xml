@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="costcut.NoteDialog">
+        <Dialog size="'sm'" title="'Add Note'">
+            <div class="p-4">
+                <input type="text"
+                       class="form-control"
+                       placeholder="Enter note here"
+                       t-model="state.note"/>
+            </div>
+             <t t-set-slot="footer">
+                <button class="btn btn-secondary" t-on-click="props.close">Cancel</button>
+                <button class="btn btn-primary" t-on-click="onSave">Save</button>
+             </t>
+        </Dialog>
+    </t>
+</templates>

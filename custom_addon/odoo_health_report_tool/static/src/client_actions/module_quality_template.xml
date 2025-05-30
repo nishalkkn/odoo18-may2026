@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="module_quality_template" xml:space="preserve">
+    <t t-name="odoo_health_report_tool.module_quality_template">
+        <div class="quality-analysis-container" style=" max-width: 1200px; margin: 0 auto; padding: 20px;">
+            <h1 class="text-center my-4">Module Quality Analysis</h1>
+
+            <!-- Invalid Naming Convention Section -->
+            <section class="analysis-section" style="margin-bottom: 30px;">
+                <div class="section-header">
+                    <i class="fa fa-info-circle" title="Shows module with invalid naming convention"></i>
+                    <h3>Modules With Invalid Naming Convention</h3>
+                </div>
+                <div class="content-card">
+                    <div class="tables-container" style="display: flex; justify-content: space-between; gap: 20px;">
+                        <div style="flex: 1;">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Invalid Modules</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-if="state.module_naming.invalid_module">
+                                        <t t-foreach="state.module_naming.invalid_module" t-as="module" t-key="module">
+                                            <tr>
+                                                <td><t t-esc="module"/></td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Second Table: Field Details -->
+                        <div style="flex: 1;">
+                            <span class="fa fa-info-circle" title="Shows field details"/>
+                            <h3>Field Details</h3>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Non stored fields</th>
+                                        <th>Stored fields</th>
+                                        <th>Total fields</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-if="state.field">
+                                        <tr>
+                                            <td><t t-esc="state.field.nonstored_fields"/></td>
+                                            <td><t t-esc="state.field.stored_fields"/></td>
+                                            <td><t t-esc="state.field.total_fields"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- End Flexbox Layout for Tables -->
+                </div>
+            </section>
+
+            <!-- Module Lines of Code Section -->
+            <section class="analysis-section" style="margin-bottom: 30px;">
+                <div class="section-header">
+                    <i class="fa fa-info-circle" title="Track the total number of lines of code in modules"></i>
+                    <h3>Module Lines of Code</h3>
+                </div>
+                <div style="align-items: center; padding: 20px; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 100%; background-color: #fff; height: 500px; overflow-y: auto;">
+                    <label style="font-size: 1.5em; font-weight: bold; color: #333; margin-bottom: 100px;"></label>
+                    <br/>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Module</th>
+                                <th>JavaScript Lines</th>
+                                <th>Python Lines</th>
+                                <th>XML Lines</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="state.quality_monitoring" t-as="module" t-key="module">
+                                <tr>
+                                    <td><t t-esc="module"/></td>
+                                    <td><t t-esc="state.quality_monitoring[module]['js_lines']"/></td>
+                                    <td><t t-esc="state.quality_monitoring[module]['py_lines']"/></td>
+                                    <td><t t-esc="state.quality_monitoring[module]['xml_lines']"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- PEP8 Violations Section -->
+            <section class="analysis-section" style="margin-bottom: 30px;">
+                <div class="section-header">
+                    <i class="fa fa-info-circle" title="Python files which violate PEP8 standards"></i>
+                    <h3>PEP8 Violations</h3>
+                </div>
+                <t t-if="state.module">
+                    <div style="align-items: center; padding: 20px; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 100%; background-color: #fff; height: 500px; overflow-y: auto;">
+                        <label style="font-size: 1.5em; font-weight: bold; color: #333; margin-bottom: 100px;"></label>
+                        <br/>
+                        <t t-foreach="module_name" t-as="module" t-key="module">
+                            <div class="module-item">
+                                <!-- Display module icon -->
+                                <t t-if="module_icons.get(module)">
+                                    <img t-att-src="'data:image/png;base64,' + module_icons[module]"
+                                         class="module-icon" width="32" height="32"/>
+                                </t>
+                                <t t-else="">
+                                    <!-- Default icon if no custom icon is found -->
+                                    <img src="/web/static/img/icons/module.png"
+                                         class="module-icon" width="32" height="32"/>
+                                </t>
+                            </div>
+                        </t>
+                        <t t-if="this.state.module_violations.violations_by_file">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>File Name</th>
+                                        <th>Line Number</th>
+                                        <th>Violation Message</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="this.state.module_violations.violations_by_file" t-as="file_path"
+                                       t-key="file_path">
+                                        <tr>
+                                            <td><t t-esc="file_path.file_name"/></td>
+                                            <td><t t-esc="file_path.line_number"/></td>
+                                            <td><t t-esc="file_path.violation_message"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </t>
+                    </div>
+                </t>
+            </section>
+
+          <div style="align-items: center; padding: 20px; border: 1px solid #ddd; border-radius: 10px;
+             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 100%; background-color: #fff;
+             height: 500px; overflow-y: auto;">
+
+            <label style="font-size: 1.5em; font-weight: bold; color: #333; margin-bottom: 100px;"></label>
+            <br/>
+
+            <!-- Check if data exists -->
+            <t t-if="state.template_standard and state.template_standard.violations_by_file">
+                <!-- Loop through violations -->
+                <t t-foreach="state.template_standard.violations_by_file" t-as="violation_key" t-key="violation_key">
+                    <div style="margin-bottom: 30px;">
+                        <!-- Header displaying module name -->
+                        <t t-if="state.template_standard.module_name">
+                            <t t-foreach="state.template_standard.module_name" t-as="name" t-key="name">
+                                Violations for Module: <t t-esc="name"/>
+
+                        <!-- Table for each module -->
+                                <table class="table" style="width: 100%; border: 1px solid #ddd; border-radius: 5px;">
+                                    <thead>
+                                        <tr>
+                                            <th>File Name</th>
+                                            <th>Line Number</th>
+                                            <th>Violation Message</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-foreach="state.template_standard.violations_by_file[violation_key]" t-as="vio" t-key="vio">
+                                            <tr>
+                                                    <td><t t-esc="vio['file_name']"/></td>
+                                                    <td><t t-esc="vio['line_number']"/></td>
+                                                    <td><t t-esc="vio['violation_message']"/></td>
+                                            </tr>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </t>
+                        </t>
+                    </div>
+                </t>
+
+                <!-- Show message if no violations -->
+                <t t-if="Object.keys(state.template_standard.violations_by_file).length === 0">
+                    <div class="alert alert-success" role="alert">
+                        No PEP8 violations found!
+                    </div>
+                </t>
+            </t>
+
+            <!-- Loading state -->
+            <t t-else="">
+                <div class="alert alert-info" role="alert">
+                    Loading PEP8 analysis...
+                </div>
+            </t>
+        </div>
+
+
+            <!--            </t>-->
+
+
+            <!--            <div class="container mt-4">-->
+
+
+            <!--            &lt;!&ndash; No Violations Message &ndash;&gt;-->
+            <!--            <div t-if="not violations_by_file" class="alert alert-success" role="alert">-->
+            <!--                <h4 class="alert-heading">Perfect Code!</h4>-->
+            <!--                <p>No PEP8 violations found in the scanned modules.</p>-->
+            <!--            </div>-->
+            <!-- PEP8 Violations Section -->
+            <!-- PEP8 Violations Section -->
+            <!--            <div class="container">-->
+            <!--            <div class="section-header mb-4">-->
+            <!--                <i class="fa fa-info-circle" title="Python files which violate PEP8 standards"/>-->
+            <!--                <h3>PEP8 Violations</h3>-->
+            <!--            </div>-->
+
+            <!--            &lt;!&ndash; Module Tiles &ndash;&gt;-->
+            <!--            <div class="row g-3 mb-4">-->
+            <!--                <t t-foreach="Object.keys(state.modules)" t-as="module" t-key="module">-->
+            <!--                    <div class="col-md-3">-->
+            <!--                        <div t-on-click="() => this.selectModule(module)"-->
+            <!--                             t-attf-class="card p-3 text-center cursor-pointer {{ state.selectedModule === module ? 'border-primary' : '' }}">-->
+            <!--                            <h5 class="mb-0"><t t-esc="module"/></h5>-->
+            <!--                            <small class="text-muted">-->
+            <!--                                <t t-esc="state.modules[module].length"/> violations-->
+            <!--                            </small>-->
+            <!--                        </div>-->
+            <!--                    </div>-->
+            <!--                </t>-->
+            <!--            </div>-->
+
+            <!--            &lt;!&ndash; Violations Table &ndash;&gt;-->
+            <!--            <t t-if="state.selectedModule">-->
+            <!--                <div class="card">-->
+            <!--                    <div class="card-header">-->
+            <!--                        <h4 class="mb-0">Violations in <t t-esc="state.selectedModule"/></h4>-->
+            <!--                    </div>-->
+            <!--                    <div class="card-body" style="max-height: 500px; overflow-y: auto;">-->
+            <!--                        <table class="table table-striped">-->
+            <!--                            <thead>-->
+            <!--                                <tr>-->
+            <!--                                    <th>File Name</th>-->
+            <!--                                    <th>Line Number</th>-->
+            <!--                                    <th>Violation Message</th>-->
+            <!--                                </tr>-->
+            <!--                            </thead>-->
+            <!--                            <tbody>-->
+            <!--                                <t t-foreach="state.modules[state.selectedModule]" t-as="violation" t-key="violation_index">-->
+            <!--                                    <tr>-->
+            <!--                                        <td><t t-esc="violation.file_name"/></td>-->
+            <!--                                        <td><t t-esc="violation.line_number"/></td>-->
+            <!--                                        <td><t t-esc="violation.violation_message"/></td>-->
+            <!--                                    </tr>-->
+            <!--                                </t>-->
+            <!--                            </tbody>-->
+            <!--                        </table>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </t>-->
+            <!--        </div>-->
+        </div>
+        <style>html .o_web_client > .o_action_manager {overflow:scroll;}</style>
+    </t>
+</templates>

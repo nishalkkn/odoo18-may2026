@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="poll_list_template" name="Poll List">
+        <t t-call="web.html_container">
+            <t t-call="web.layout">
+                <div class="container">
+                    <h1>Available Polls</h1>
+                    <t t-foreach="polls" t-as="poll">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title"><t t-esc="poll.name"/></h5>
+                                <a t-att-href="'/poll/%s/vote' % poll.id" class="btn btn-primary">Vote</a>
+                            </div>
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="vote_template" name="Vote Poll">
+        <t t-call="web.html_container">
+            <t t-call="web.layout">
+                <div class="container">
+                    <h1><t t-esc="poll.name"/></h1>
+                    <form method="post">
+                        <t t-if="poll.allow_multiple">
+                            <t t-foreach="poll.option_ids" t-as="option">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" t-att-name="'options'" t-att-value="option.id"/>
+                                    <label class="form-check-label"><t t-esc="option.name"/></label>
+                                </div>
+                            </t>
+                        </t>
+                        <t t-else="">
+                            <t t-foreach="poll.option_ids" t-as="option">
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" name="options" t-att-value="option.id"/>
+                                    <label class="form-check-label"><t t-esc="option.name"/></label>
+                                </div>
+                            </t>
+                        </t>
+                        <button type="submit" class="btn btn-primary mt-3">Submit Vote</button>
+                    </form>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="error_template" name="Error">
+        <t t-call="web.html_container">
+            <t t-call="web.layout">
+                <div class="container">
+                    <h1>Error</h1>
+                    <p><t t-esc="message"/></p>
+                    <a href="/polls" class="btn btn-primary">Back to Polls</a>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

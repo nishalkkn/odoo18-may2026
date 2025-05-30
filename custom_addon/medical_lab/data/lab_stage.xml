@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="stage_draft" model="lab.stage">
+        <field name="name">Draft</field>
+    </record>
+    <record id="stage_in_progress" model="lab.stage">
+        <field name="name">In Progress</field>
+    </record>
+    <record id="stage_done" model="lab.stage">
+        <field name="name">Done</field>
+        <field name="is_folded">True</field>
+    </record>
+</odoo>

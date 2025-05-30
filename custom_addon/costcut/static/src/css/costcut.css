@@ -1,0 +1,84 @@
+.table-responsive {
+    display: flex;
+    flex-direction: column;
+}
+
+.table thead th {
+    white-space: nowrap;
+}
+
+.table tbody td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 264px;
+    background-color: white;
+}
+
+/* Scrollbar styles for better usability */
+.table-responsive::-webkit-scrollbar {
+    height: 18px;
+    width: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background: #ced4da;
+    border-radius: 4px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+    background: #adb5bd;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+    background: #f8f9fa;
+}
+
+.calendar-table thead th:first-child{
+    position:sticky;
+    left:0px
+}
+
+.calendar-table tbody td:first-child{
+    position:sticky;
+    left:0px
+}
+
+.booked {
+   background: red !important;
+   background-color: red !important;
+}
+
+.selected{
+    background-color: yellow !important;
+}
+/*.overlap {
+    background-color: #ffebee !important;
+    cursor: not-allowed;
+}
+*/
+/* Existing appointments */
+.scheduled {
+    background-color: yellow !important;
+    position: relative;
+}
+
+/* Currently being selected slots */
+.selecting {
+    background-color: rgba(33, 150, 243, 0.3) !important;
+}
+
+/* Overlap indicator */
+.overlap-indicator {
+    position: relative;
+}
+
+.overlap-indicator::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(244, 67, 54, 0.3);
+    pointer-events: none;
+}

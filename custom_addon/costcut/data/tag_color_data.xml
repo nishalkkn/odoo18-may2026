@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="booked" model="tag.color">
+            <field name="name">Booked</field>
+            <field name="color">#FF5733</field>
+        </record>
+        <record id="cancelled" model="tag.color">
+            <field name="name">Cancelled</field>
+            <field name="color">#C70039</field>
+        </record>
+        <record id="confirmed" model="tag.color">
+            <field name="name">Confirmed</field>
+            <field name="color">#28A745</field>
+        </record>
+        <record id="service_started" model="tag.color">
+            <field name="name">Service Started</field>
+            <field name="color">#FFC300</field>
+        </record>
+        <record id="paid" model="tag.color">
+            <field name="name">Paid</field>
+            <field name="color">#3498DB</field>
+        </record>
+        <record id="done" model="tag.color">
+            <field name="name">Done</field>
+            <field name="color">#8E44AD</field>
+        </record>
+        <record id="not_reach" model="tag.color">
+            <field name="name">Not Reached</field>
+            <field name="color">#E74C3C</field>
+        </record>
+        <record id="arrived" model="tag.color">
+            <field name="name">Arrived</field>
+            <field name="color">#1ABC9C</field>
+        </record>
+    </data>
+</odoo>

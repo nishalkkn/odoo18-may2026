@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="flat_view_list" model="ir.ui.view">
+        <field name="name">flat.list</field>
+        <field name="model">flat</field>
+        <field name="arch" type="xml">
+            <list string="Channel" editable="bottom">
+                <field name="name"/>
+                <field name="description"/>
+                <field name="amount"/>
+            </list>
+        </field>
+    </record>
+
+
+    <record id="flat_action" model="ir.actions.act_window">
+        <field name="name">Flat</field>
+        <field name="res_model">flat</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="flat_menu_root" name="Flat"/>
+    <menuitem id="flat_menu_id" action="flat_action" parent="flat_menu_root"/>
+</odoo>

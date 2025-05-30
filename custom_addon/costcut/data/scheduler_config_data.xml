@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="1">
+        <record id="scheduler_config_sale_order_line_1" model="scheduler.config">
+            <field name="name">sale.order.line</field>
+            <field name="time_from">0.00</field>
+            <field name="time_to">24.00</field>
+            <field name="duration">0.25</field>
+            <field name="booked">#1af0ff</field>
+            <field name="cancel">#ff0000</field>
+            <field name="confirm">#00ff9d</field>
+            <field name="execute">#0025db</field>
+            <field name="paid">#2bff00</field>
+            <field name="arrived">#fbff00</field>
+            <field name="no_show">#ffb042</field>
+            <field name="done">#03ad00</field>
+        </record>
+    </data>
+</odoo>

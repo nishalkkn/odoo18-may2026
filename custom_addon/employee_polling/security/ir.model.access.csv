@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_employee_poll_manager,access.employee.poll.manager,model_employee_poll,hr.group_hr_manager,1,1,1,1
+access_employee_poll_employee,access.employee.poll.employee,model_employee_poll,base.group_user,1,0,0,0
+access_employee_poll_option,access.employee.poll.option,model_employee_poll_option,base.group_user,1,0,0,0
+access_employee_poll_vote,access.employee.poll.vote,model_employee_poll_vote,base.group_user,1,1,1,0

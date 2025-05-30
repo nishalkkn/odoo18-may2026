@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates xml:space="preserve">
+    <t t-name="costcut.CalendarController">
+        <!-- Define a template named "costcut.CalendarController" for rendering the calendar and associated components -->
+        <Layout display="display"/>
+                    <div class="search-bar p-2 d-flex justify-content-center">
+                <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Search..."
+                        style="max-width: 400px;"
+                        t-on-keyup="filterEmployees"
+                        t-ref="employeeSearchRef"
+                />
+            </div>
+
+        <div class="wrap d-flex costcut-calendar" style="overflow:scroll;">
+            <!-- Add a search bar at the top -->
+            <div class="content p-2">
+                <div t-ref="daypilot"/>
+            </div>
+            <div class="right p-2">
+                <div t-ref="navigator"/>
+                <div style="max-height:300px;overflow:auto;" t-ref="employees"/>
+            </div>
+        </div>
+    </t>
+</templates>

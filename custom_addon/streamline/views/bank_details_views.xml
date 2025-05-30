@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="bank_details_view_list" model="ir.ui.view">
+        <field name="name">bank.details.list</field>
+        <field name="model">bank.details</field>
+        <field name="arch" type="xml">
+            <list string="Channel" editable="bottom">
+                <field name="name"/>
+                <field name="bank_details"/>
+            </list>
+        </field>
+    </record>
+</odoo>
